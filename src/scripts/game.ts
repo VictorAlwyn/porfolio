@@ -7,7 +7,6 @@ export type Achievement = {
   id: string;
   title: string;
   description: string;
-  icon: string;
   test: (events: string[], unlocked: string[]) => boolean;
 };
 
@@ -25,33 +24,29 @@ export const ACHIEVEMENTS: Achievement[] = [
     id: 'explorer',
     title: 'Explorer',
     description: 'Discover every area of the map.',
-    icon: '🧭',
     test: (ev) => SECTIONS.every((s) => ev.includes(`section:${s}`)),
   },
-  { id: 'quest-reader', title: 'Quest Reader', description: 'Open your first quest.', icon: '📜', test: (ev) => questCount(ev) >= 1 },
-  { id: 'lore-master', title: 'Lore Master', description: 'Read three quests.', icon: '📚', test: (ev) => questCount(ev) >= 3 },
-  { id: 'scholar', title: 'Scholar', description: 'Grab the resume scroll.', icon: '🎓', test: (ev) => ev.includes('resume') },
-  { id: 'recruiter', title: 'Party Recruiter', description: 'Reach out by email or GitHub.', icon: '🤝', test: (ev) => ev.includes('contact') },
+  { id: 'quest-reader', title: 'Quest Reader', description: 'Open your first quest.', test: (ev) => questCount(ev) >= 1 },
+  { id: 'lore-master', title: 'Lore Master', description: 'Read three quests.', test: (ev) => questCount(ev) >= 3 },
+  { id: 'scholar', title: 'Scholar', description: 'Grab the resume scroll.', test: (ev) => ev.includes('resume') },
+  { id: 'recruiter', title: 'Party Recruiter', description: 'Reach out by email or GitHub.', test: (ev) => ev.includes('contact') },
   {
     id: 'secret-finder',
     title: 'Secret Finder',
     description: 'An old-school cheat code… or a lot of taps on the crest.',
-    icon: '🕹️',
     test: (ev) => ev.includes('secret'),
   },
   {
     id: 'collector',
     title: 'Collector',
     description: 'Find every registration mark hidden in the issue.',
-    icon: '⌖',
     test: (ev) => RELICS.every((r) => ev.includes(`relic:${r}`)),
   },
-  { id: 'bonus-stage', title: 'Bonus Stage', description: 'Finish a press run in the bonus stage.', icon: '◐', test: (ev) => ev.includes('arcade') },
+  { id: 'bonus-stage', title: 'Bonus Stage', description: 'Finish a press run in the bonus stage.', test: (ev) => ev.includes('arcade') },
   {
     id: 'completionist',
     title: 'Completionist',
     description: 'Unlock every other achievement.',
-    icon: '🏆',
     // ponytail: relies on being last in this list so one pass sees every other unlock.
     test: (_ev, un) => ACHIEVEMENTS.every((a) => a.id === 'completionist' || un.includes(a.id)),
   },
