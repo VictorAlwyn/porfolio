@@ -32,7 +32,7 @@ Static Astro site deployed on Vercel. Visitors arrive on laptops and phones, inc
 - The site must not read as cartoonish or childish.
 
 ## Evidence on Hand
-- `src/data/resume.ts`: profile, 11 roles, education, 9 skill groups and 6 projects.
+- `src/data/resume.ts`: profile, 12 roles, education, 9 skill groups and 7 projects.
 - `public/resume.pdf` and `public/og.png`.
 - No project screenshots, portrait, testimonials, client logos or metrics beyond the resume facts exist yet. None may be invented. The user will supply project screenshots and a portrait later, so the site must look complete without them and pick them up automatically when the `image` fields and a portrait path are set.
 

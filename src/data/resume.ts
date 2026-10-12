@@ -32,7 +32,7 @@ export const skills: SkillGroup[] = [
   {
     name: 'Frontend & Mobile',
     icon: '◈',
-    items: ['React.js', 'Next.js', 'React Native', 'Expo', 'Three.js', 'React Three Fiber', 'MobX', 'Responsive Design'],
+    items: ['React.js', 'Next.js', 'React Native', 'Expo', 'Three.js', 'React Three Fiber', 'React Query (TanStack Query)', 'React Hook Form', 'Recharts', 'DevExtreme', 'MobX', 'Responsive Design'],
   },
   {
     name: 'Backend & APIs',
@@ -44,10 +44,10 @@ export const skills: SkillGroup[] = [
   {
     name: 'Security & Auth',
     icon: '⛨',
-    items: ['OAuth 2.0', 'Single Sign-On (SSO)', 'Passkeys (WebAuthn)', 'Session Management', 'SOC 2 Compliance', 'Multi-Tenant Architecture'],
+    items: ['OAuth 2.0', 'Auth0', 'Single Sign-On (SSO)', 'Passkeys (WebAuthn)', 'Session Management', 'SOC 2 Compliance', 'Multi-Tenant Architecture'],
   },
   { name: 'Testing & Quality', icon: '✓', items: ['Playwright', 'Jest', 'React Testing Library', 'End-to-End Testing', 'Code Reviews'] },
-  { name: 'Other', icon: '✚', items: ['Shopify', 'Contentful', 'Retool', 'Agora', 'Git', 'Agile/Scrum'] },
+  { name: 'Other', icon: '✚', items: ['Stripe', 'Stripe Connect', 'Shopify Admin API', 'Contentful', 'Sanity', 'Prismic', 'SEO', 'Retool', 'Agora', 'Git', 'Agile/Scrum'] },
 ];
 
 export type Role = {
@@ -104,7 +104,7 @@ export const experience: Role[] = [
     start: 'Nov 2024',
     end: 'Jun 2025',
     bullets: [
-      'Led code reviews for maintainability and scalability across three client platforms: Visible Voice (disability-inclusive fashion and media), Scouty (film and photo location rentals in London) and Togather (events marketplace with thousands of suppliers and venues).',
+      'Led code reviews for maintainability and scalability across three client platforms: Visible Voice (disability-inclusive fashion and media), Scouty (film and photo location rentals in London) and Togather (events marketplace with thousands of suppliers and venues, built on Prismic CMS).',
       'Worked directly with the project manager and clients to align technical scope with business goals.',
     ],
   },
@@ -116,6 +116,7 @@ export const experience: Role[] = [
     end: 'Nov 2024',
     bullets: [
       'Led code reviews and mentored junior engineers building features for the Contact platform.',
+      "Improved the platform's SEO.",
       'Planned sprint scope and deliverables with the project manager.',
     ],
   },
@@ -128,16 +129,25 @@ export const experience: Role[] = [
     quest: 'pie-channel',
     bullets: [
       'Developed and deployed serverless applications on AWS using SST (Serverless Stack), building scalable, cost-effective and highly available services.',
-      "Built platforms for Nyma Talent Management and Pie Channel, the Philippines' first interactive entertainment channel, where viewers participate and win prizes.",
+      'Built the Nyma Talent Management platform with Sanity CMS, plus an internal tool that lets non-technical staff create contracts, cost estimates and documents on their own.',
+      "Built the platform for Pie Channel, the Philippines' first interactive entertainment channel, where viewers participate and win prizes.",
       'Maintained code quality with unit and integration tests and code reviews, and mentored junior engineers.',
     ],
   },
   {
     role: 'Senior Software Engineer',
     company: 'Offshorly',
+    location: 'Remote (Stamford, United Kingdom)',
     start: 'May 2022',
     end: 'Nov 2022',
-    bullets: [],
+    quest: 'skyhook-tools',
+    bullets: [
+      'Led backend development for Skyhook Tools, a B2B SaaS prioritisation and roadmapping platform for project managers and executives, delivered in 7 months and rated 5 stars on Clutch.',
+      'Designed and built the Node.js and PostgreSQL backend and REST APIs that capture and process project data: tasks, dependencies, risks, costs and effort.',
+      'Shipped APIs with simulated data first, so frontend and backend could be built and validated in parallel before integration.',
+      "Took on the hardest frontend work in Next.js and React: interactive Gantt charts (DevExtreme), quadrant views (Recharts) and dependency flowcharts, adding custom features the libraries didn't support out of the box.",
+      'Mentored and managed junior developers in a hybrid Scrum team with bi-weekly client reporting.',
+    ],
   },
   {
     role: 'Software Engineer',
@@ -147,11 +157,12 @@ export const experience: Role[] = [
     end: 'May 2023',
     quest: 'moment-world',
     bullets: [
-      'Built live streaming with Agora for real-time broadcasts and video-on-demand (VOD) recording on the Moment House ticketed live-event platform.',
+      'Built real-time chat, including direct messages and group chat, for the Moment House ticketed live-event platform.',
+      'Designed and built content moderation tools for chat and forums to keep live-event communities safe.',
+      'Built live streaming with Agora for real-time broadcasts and video-on-demand (VOD) recording.',
       'Built "World", a 3D gamified live streaming experience, using Three.js.',
-      'Developed direct-message and group chat, plus moderation tools for chat and forums.',
       'Ran stress tests and resolved performance bottlenecks ahead of high-traffic live events.',
-      'Converted Figma designs into production React.js components and built a Retool app to streamline internal operations.',
+      'Built a Retool app to streamline internal operations.',
     ],
   },
   {
@@ -286,15 +297,16 @@ export const projects: Project[] = [
     hue: 330,
     summary: 'A Three.js 3D world for live events on the Moment House ticketed streaming platform, plus Agora live and VOD.',
     brief:
-      'Moment House is a ticketed live-event platform (Los Angeles, United States). Alwyn built its live streaming features and "World", a 3D gamified live streaming experience, and kept the platform fast for high-traffic events.',
+      'Moment House is a ticketed live-event platform (Los Angeles, United States). Alwyn built its real-time chat and moderation tools, its live streaming and "World", a 3D gamified live streaming experience, and kept the platform fast for high-traffic events.',
     built: [
-      'Built "World", a 3D gamified live streaming experience, using Three.js.',
+      'Built real-time chat, including direct messages and group chat, for the Moment House ticketed live-event platform.',
+      'Designed and built content moderation tools for chat and forums to keep live-event communities safe.',
       'Built live streaming with Agora for real-time broadcasts and video-on-demand (VOD) recording.',
-      'Developed direct-message and group chat, plus moderation tools for chat and forums.',
+      'Built "World", a 3D gamified live streaming experience, using Three.js.',
       'Ran stress tests and resolved performance bottlenecks ahead of high-traffic live events.',
-      'Converted Figma designs into production React.js components and built a Retool app to streamline internal operations.',
+      'Built a Retool app to streamline internal operations.',
     ],
-    stack: ['Three.js', 'React.js', 'Agora', 'Live Streaming', 'Real-Time Chat', 'Retool', 'Figma'],
+    stack: ['Three.js', 'React.js', 'Agora', 'Live Streaming', 'Real-Time Chat', 'Content Moderation', 'Retool'],
   },
   {
     slug: 'pie-channel',
@@ -307,13 +319,34 @@ export const projects: Project[] = [
     hue: 40,
     summary: "Serverless AWS platforms for the Philippines' first interactive entertainment channel, where viewers participate and win prizes.",
     brief:
-      "At Kroma Entertainment, Alwyn built platforms for Pie Channel, the Philippines' first interactive entertainment channel where viewers participate and win prizes, and for Nyma Talent Management, all on serverless AWS.",
+      "At Kroma Entertainment, Alwyn built the platform for Pie Channel, the Philippines' first interactive entertainment channel where viewers participate and win prizes, and the Nyma Talent Management platform with Sanity CMS, all on serverless AWS.",
     built: [
       'Developed and deployed serverless applications on AWS using SST (Serverless Stack), building scalable, cost-effective and highly available services.',
-      'Built the Pie Channel and Nyma Talent Management platforms.',
+      "Built the platform for Pie Channel, the Philippines' first interactive entertainment channel, where viewers participate and win prizes.",
+      'Built the Nyma Talent Management platform with Sanity CMS, plus an internal tool that lets non-technical staff create contracts, cost estimates and documents on their own.',
       'Maintained code quality with unit and integration tests and code reviews, and mentored junior engineers.',
     ],
-    stack: ['AWS', 'SST (Serverless Stack)', 'Serverless', 'Unit & Integration Tests', 'Code Reviews'],
+    stack: ['AWS', 'SST (Serverless Stack)', 'Serverless', 'Sanity CMS', 'Unit & Integration Tests', 'Code Reviews'],
+  },
+  {
+    slug: 'skyhook-tools',
+    title: 'Skyhook Tools: B2B prioritisation and roadmapping platform',
+    company: 'Offshorly',
+    role: 'Senior Software Engineer',
+    period: 'May 2022 – Nov 2022',
+    type: 'Side quest',
+    glyph: 'SH',
+    hue: 260,
+    summary: 'Backend lead and the hardest frontend work for a B2B SaaS that helps project managers and executives prioritise and roadmap, delivered in 7 months and rated 5 stars on Clutch.',
+    brief:
+      'At Offshorly, Alwyn led backend development for Skyhook Tools, a B2B SaaS prioritisation and roadmapping platform for project managers and executives, delivered in 7 months and rated 5 stars on Clutch. He also took on the hardest frontend work and mentored the junior developers on a hybrid Scrum team.',
+    built: [
+      'Designed and built the Node.js and PostgreSQL backend and REST APIs that capture and process project data: tasks, dependencies, risks, costs and effort.',
+      'Shipped APIs with simulated data first, so frontend and backend could be built and validated in parallel before integration.',
+      "Took on the hardest frontend work in Next.js and React: interactive Gantt charts (DevExtreme), quadrant views (Recharts) and dependency flowcharts, adding custom features the libraries didn't support out of the box.",
+      'Mentored and managed junior developers in a hybrid Scrum team with bi-weekly client reporting.',
+    ],
+    stack: ['Node.js', 'PostgreSQL', 'REST APIs', 'Next.js', 'React.js', 'DevExtreme', 'Recharts', 'Scrum'],
   },
   {
     slug: 'activ-v3',

@@ -67,10 +67,14 @@ function aperture(tier: Tier): Built {
 }
 
 function slabs(): Built {
+  // One board per quest, tapering from the tallest; spacing shrinks as boards are added so the row keeps its width.
+  const n = dom('#quests .cell', () => 1, [1, 1, 1, 1, 1, 1]).length;
+  const span = 10.25 / (n - 1);
+  const mid = (n - 1) / 2;
   const group = new Group();
   group.position.set(-4, 0, z(2));
-  const boards = [8.5, 7.5, 6.6, 5.8, 5.1, 4.5].map((h, i) => {
-    const geo = new BoxGeometry(2, h, 0.4);
+  const boards = Array.from({ length: n }, (_, i) => 8.5 - (4 * i) / (n - 1)).map((h, i) => {
+    const geo = new BoxGeometry(Math.min(2, span * 0.97), h, 0.4);
     geo.translate(0, h / 2, 0);
     const board = new Group();
     board.add(new Mesh(geo, inkMaterial({ spot: i % 2 === 0 ? 0.9 : 0 })), hairlines(geo));
@@ -81,8 +85,8 @@ function slabs(): Built {
     object: group,
     update: (local) => {
       boards.forEach((b, i) => {
-        const k = i - 2.5;
-        b.position.set(k * 2.05 + (local - 0.5) * k * 1.2, 0, -Math.abs(k));
+        const k = i - mid;
+        b.position.set(k * span + (local - 0.5) * k * 1.2, 0, -Math.abs(k));
         b.rotation.y = k * 0.12 + (local - 0.5) * 0.25;
       });
     },
