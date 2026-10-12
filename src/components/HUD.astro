@@ -374,6 +374,21 @@ const links = [
     transform: none;
     opacity: 1;
   }
+  /* On a phone the toast takes the masthead for a few seconds instead of covering the page. */
+  @media (max-width: 899px) {
+    .toast {
+      top: 6px;
+      left: var(--gutter);
+      right: var(--gutter);
+      max-width: none;
+      min-height: calc(var(--hud-h) - 12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 60;
+    }
+  }
 
   dialog {
     width: min(94vw, 560px);

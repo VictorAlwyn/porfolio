@@ -79,7 +79,9 @@ const year = new Date().getFullYear();
       const canvas = document.getElementById('world') as HTMLCanvasElement | null;
       const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
       const saveData = (navigator as { connection?: { saveData?: boolean } }).connection?.saveData;
-      const probe = canvas && !calm && !saveData ? document.createElement('canvas').getContext('webgl2', { failIfMajorPerformanceCaveat: true }) : null;
+      // Quest pages on a phone are reading pages with one fixed camera, so the sculpture would sit behind the text for good.
+      const reading = !!document.body.dataset.quest && innerWidth < 900;
+      const probe = canvas && !calm && !saveData && !reading ? document.createElement('canvas').getContext('webgl2', { failIfMajorPerformanceCaveat: true }) : null;
       if (canvas && probe) {
         probe.getExtension('WEBGL_lose_context')?.loseContext();
         const idle = (cb: () => void) => ('requestIdleCallback' in window ? requestIdleCallback(cb, { timeout: 3000 }) : setTimeout(cb, 200));
