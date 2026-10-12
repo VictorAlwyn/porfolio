@@ -34,17 +34,17 @@ const split = (p: Project) => {
                   {p.image ? <img src={p.image} alt={`Screenshot of ${p.title}`} width="640" height="360" loading="lazy" decoding="async" /> : <Emblem glyph={p.glyph} seed={num(p)} />}
                 </div>
                 <div class="copy">
-                  <p class="meta label">
-                    <span class="num display">{num(p)}</span>
-                    <span>{p.type} · {p.period}</span>
-                  </p>
-                  <h3>
-                    <a href={`/quests/${p.slug}`}>
-                      <span class="name display">{name}</span><span class="sr-only">: </span>
-                      <span class="tag">{tag}</span>
-                    </a>
-                  </h3>
+                  <div class="head">
+                    <span class="num display" aria-hidden="true">{num(p)}</span>
+                    <h3>
+                      <a href={`/quests/${p.slug}`}>
+                        <span class="name display">{name}</span><span class="sr-only">: </span>
+                        <span class="tag">{tag}</span>
+                      </a>
+                    </h3>
+                  </div>
                   <p class="summary">{p.summary}</p>
+                  <p class="meta label">{p.type} · {p.period}</p>
                   <ul class="chips">
                     {p.stack.slice(0, 4).map((s) => (
                       <li class="chip">{s}</li>
@@ -127,10 +127,13 @@ const split = (p: Project) => {
     gap: 12px;
     padding: clamp(16px, 2vw, 24px);
   }
-  .meta {
+  .head {
     display: flex;
-    align-items: center;
-    gap: 12px;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .head .num {
+    margin-top: 6px;
   }
   .num {
     display: inline-grid;

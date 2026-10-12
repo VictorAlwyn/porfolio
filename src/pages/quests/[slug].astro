@@ -79,7 +79,8 @@ const jsonLd = [
           {
             p.url && (
               <a class="btn" href={p.url} rel="noopener" target="_blank">
-                Visit {p.company} ↗
+                Visit {p.company}
+                <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" stroke="currentColor" stroke-width="2" fill="none"></path></svg>
               </a>
             )
           }

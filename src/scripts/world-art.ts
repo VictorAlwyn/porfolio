@@ -1,5 +1,7 @@
 import {
   BoxGeometry,
+  BufferAttribute,
+  BufferGeometry,
   CylinderGeometry,
   EdgesGeometry,
   Group,
@@ -87,31 +89,42 @@ function slabs(): Built {
   };
 }
 
-// A mixing desk: one meter per skill branch, lit segments for skills in it and a small tick where a segment is not lit.
+// A mixing desk: one channel per skill branch. The bar is as tall as the branch is deep, a fader cap sits on it, and the
+// outline of the empty channel above shows what is not lit.
 function meters(): Built {
   const counts = dom('#skills .row', (el) => el.querySelectorAll('.chip').length, [11, 7, 8, 10, 6, 3, 6, 5, 6]);
   const peak = Math.max(...counts);
+  const step = 0.85;
   const group = new Group();
   group.position.set(5, 0, z(3));
-  const seg = new BoxGeometry(0.95, 0.6, 0.95);
-  const body = new InstancedMesh(seg, inkMaterial(), counts.length * peak);
-  const caps = new InstancedMesh(seg, inkMaterial({ spot: 1 }), counts.length);
+  const unit = new BoxGeometry(1, 1, 1);
+  unit.translate(0, 0.5, 0);
+  const bars = new InstancedMesh(unit, inkMaterial(), counts.length);
+  const caps = new InstancedMesh(unit, inkMaterial({ spot: 1 }), counts.length);
   const o = new Object3D();
-  let n = 0;
+  const edge = new EdgesGeometry(new BoxGeometry(0.9, peak * step, 0.9));
+  const source = edge.attributes.position.array;
+  const ghost = new Float32Array(source.length * counts.length);
   counts.forEach((count, k) => {
-    for (let j = 0; j < peak; j++) {
-      const lit = j < count;
-      o.position.set((k - (counts.length - 1) / 2) * 1.2, j * 1.05, 0);
-      o.scale.set(lit ? 1 : 0.3, lit ? 1 : 0.4, lit ? 1 : 0.3);
-      o.updateMatrix();
-      if (lit && j === count - 1) caps.setMatrixAt(k, o.matrix);
-      else body.setMatrixAt(n++, o.matrix);
+    const x = (k - (counts.length - 1) / 2) * 1.2;
+    o.position.set(x, 0, 0);
+    o.scale.set(0.9, count * step, 0.9);
+    o.updateMatrix();
+    bars.setMatrixAt(k, o.matrix);
+    o.position.y = count * step;
+    o.scale.set(1.12, 0.38, 1.12);
+    o.updateMatrix();
+    caps.setMatrixAt(k, o.matrix);
+    for (let i = 0; i < source.length; i += 3) {
+      ghost[k * source.length + i] = source[i] + x;
+      ghost[k * source.length + i + 1] = source[i + 1] + (peak * step) / 2;
+      ghost[k * source.length + i + 2] = source[i + 2];
     }
   });
-  body.count = n;
-  body.frustumCulled = false;
-  caps.frustumCulled = false;
-  group.add(body, caps);
+  const lines = new LineSegments(new BufferGeometry().setAttribute('position', new BufferAttribute(ghost, 3)), new LineBasicMaterial());
+  (lines.material as LineBasicMaterial).color = uniforms.uInk.value;
+  bars.frustumCulled = caps.frustumCulled = lines.frustumCulled = false;
+  group.add(lines, bars, caps);
   return {
     object: group,
     update: (local) => {
@@ -181,7 +194,7 @@ export const art: WorldArt = {
     { id: 'hero', cam: [-2, 5.5, z(0) + 34], look: [-2, 5, z(0)], palette: { paper: foam, ink, spot: '#ff4a1f' }, build: swell },
     { id: 'about', ...beside(7, 4.2, 1), palette: { paper: '#d6d2c9', ink, spot: '#1f3bff' }, build: aperture },
     { id: 'quests', ...beside(-4, 4.5, 2, 4.2), palette: { paper: '#a7b4bb', ink, spot: '#c9f23c' }, build: slabs },
-    { id: 'skills', ...beside(5, 5, 3, 7.6), palette: { paper: foam, ink, spot: '#1f3bff' }, build: meters },
+    { id: 'skills', ...beside(5, 5, 3, 7.2), palette: { paper: foam, ink, spot: '#1f3bff' }, build: meters },
     { id: 'campaign', ...beside(-3, 6.5, 4, 6), palette: { paper: '#7fa29a', ink, spot: '#ff4a1f' }, build: records },
     { id: 'contact', ...beside(4, 4.5, 5), palette: { paper: ink, ink: foam, spot: '#ff4a1f', dark: true }, build: sun },
   ],

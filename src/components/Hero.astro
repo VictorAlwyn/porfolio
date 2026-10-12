@@ -11,6 +11,13 @@ const facts = [
   ['Base', `${profile.location} · Remote`],
 ];
 const best = projects.filter((p) => p.type === 'Main quest').slice(0, 3);
+const chapters = [
+  ['about', 'Character bio'],
+  ['quests', 'Quest log'],
+  ['skills', 'Skill tree'],
+  ['campaign', 'Campaign log'],
+  ['contact', 'Join the party'],
+];
 ---
 
 <section class="hero" data-zone="hero" aria-labelledby="hero-title">
@@ -73,6 +80,21 @@ const best = projects.filter((p) => p.type === 'Main quest').slice(0, 3);
           ))
         }
       </ol>
+      <nav class="toc" aria-labelledby="toc-title">
+        <h2 id="toc-title" class="label">In this issue</h2>
+        <ol>
+          {
+            chapters.map(([id, label], i) => (
+              <li>
+                <a href={`#${id}`}>
+                  <span class="toc-n display" aria-hidden="true">{i + 1}</span>
+                  {label}
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
       <p class="hint">Explore the issue to earn XP, find hidden registration marks and unlock achievements.</p>
     </aside>
   </div>
@@ -122,10 +144,27 @@ const best = projects.filter((p) => p.type === 'Main quest').slice(0, 3);
 
   .pitch {
     max-width: 520px;
-    padding: 20px;
+    padding: 16px 18px 18px;
     display: grid;
-    gap: 18px;
+    gap: 14px;
     margin-bottom: clamp(20px, 3vw, 40px);
+    font-size: 0.97rem;
+    line-height: 1.5;
+  }
+  /* Below the three-column layout the swell sits behind the name, so the pitch plate lets a little of it print through. */
+  @media (max-width: 999px) {
+    .pitch {
+      background: color-mix(in oklab, var(--stock) 88%, transparent);
+    }
+    .rail-right {
+      order: 0;
+    }
+    .rail-left {
+      order: 1;
+    }
+    .toc {
+      display: none;
+    }
   }
   .cta {
     display: flex;
@@ -231,6 +270,42 @@ const best = projects.filter((p) => p.type === 'Main quest').slice(0, 3);
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+  .toc {
+    display: grid;
+    gap: 6px;
+    padding-top: 14px;
+    border-top: var(--rule);
+  }
+  .toc ol {
+    list-style: none;
+    display: grid;
+  }
+  .toc li + li {
+    border-top: var(--rule);
+  }
+  .toc a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .toc a:hover {
+    background: var(--fg);
+    color: var(--stock);
+  }
+  .toc-n {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    padding-top: 3px;
+    background: var(--spot);
+    color: var(--on-spot);
+    font-size: 1.2rem;
+    line-height: 1;
   }
   .hint {
     font-size: 0.86rem;

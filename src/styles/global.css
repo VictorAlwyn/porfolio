@@ -36,6 +36,7 @@
   --shoulder: 56px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 
+  --fiber: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='f' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -14 0 0 0 4.2'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>");
   --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  14 0 0 0 -4.1'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 
   transition:
@@ -146,6 +147,17 @@ body::before {
   mask-image: radial-gradient(90% 70% at 85% 95%, #000 0, transparent 70%);
   -webkit-mask-image: radial-gradient(90% 70% at 85% 95%, #000 0, transparent 70%);
   opacity: 0.45;
+}
+
+/* Paper fibre over everything: sparse dark flecks, plain alpha (no blend mode) so it costs one quad over the canvas. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: var(--fiber) 0 0 / 240px 240px;
+  opacity: 0.1;
 }
 
 #world {
@@ -311,6 +323,10 @@ dl {
   text-transform: uppercase;
   line-height: 0.86;
   font-size: clamp(3.4rem, 1.2rem + 10.5vw, 9.5rem);
+  -webkit-mask-image: var(--grain);
+  mask-image: var(--grain);
+  mask-size: 240px 240px;
+  -webkit-mask-size: 240px 240px;
 }
 
 .lede {
@@ -341,7 +357,7 @@ dl {
   min-height: 52px;
   padding: 12px 22px;
   border: var(--rule);
-  background: transparent;
+  background: var(--stock);
   color: var(--fg);
   font-family: var(--font-display);
   font-size: 1.45rem;

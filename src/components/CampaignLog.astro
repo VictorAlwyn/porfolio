@@ -34,7 +34,6 @@ const span = (m: number) => `${Math.floor(m / 12) ? `${Math.floor(m / 12)} yr ` 
             <li class="level" data-months={months(r)}>
               <article>
                 <div class="when">
-                  <p class="label lv">LV {experience.length - i}</p>
                   <p class="dates">
                     {r.start} – {r.end}
                   </p>
@@ -42,7 +41,7 @@ const span = (m: number) => `${Math.floor(m / 12) ? `${Math.floor(m / 12)} yr ` 
                   <p class="label">{span(months(r))}</p>
                 </div>
                 <div class="what">
-                  <h3 class="display">{r.role}</h3>
+                  <h3 class="display"><span class="lv label">LV {experience.length - i}</span>{r.role}</h3>
                   <p class="org">
                     <strong>{r.company}</strong> · {r.location}
                   </p>
@@ -53,7 +52,10 @@ const span = (m: number) => `${Math.floor(m / 12) ? `${Math.floor(m / 12)} yr ` 
                   </ul>
                   {r.bullets.length > VISIBLE && (
                     <details>
-                      <summary>Show {r.bullets.length - VISIBLE} more</summary>
+                      <summary>
+                        <svg class="chev" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M8 5l8 7-8 7" stroke="currentColor" stroke-width="2.4" fill="none"></path></svg>
+                        Show {r.bullets.length - VISIBLE} more
+                      </summary>
                       <ul class="bullets">
                         {r.bullets.slice(VISIBLE).map((b) => (
                           <li>{b}</li>
@@ -63,7 +65,8 @@ const span = (m: number) => `${Math.floor(m / 12) ? `${Math.floor(m / 12)} yr ` 
                   )}
                   {r.quest && (
                     <a class="level-quest" href={`/quests/${r.quest}`}>
-                      View quest →
+                      View quest
+                      <svg class="arrow" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"></path></svg>
                     </a>
                   )}
                 </div>
@@ -74,11 +77,10 @@ const span = (m: number) => `${Math.floor(m / 12) ? `${Math.floor(m / 12)} yr ` 
         <li class="level tutorial">
           <article>
             <div class="when">
-              <p class="label lv">Tutorial</p>
               <p class="dates">{education.years}</p>
             </div>
             <div class="what">
-              <h3 class="display">{education.degree}</h3>
+              <h3 class="display"><span class="lv label">Tutorial</span>{education.degree}</h3>
               <p class="org"><strong>{education.school}</strong> · {education.location}</p>
             </div>
           </article>
@@ -148,6 +150,10 @@ const span = (m: number) => `${Math.floor(m / 12) ? `${Math.floor(m / 12)} yr ` 
     margin-top: 10px;
   }
   summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
     cursor: pointer;
     font-weight: 700;
     width: fit-content;
@@ -155,11 +161,32 @@ const span = (m: number) => `${Math.floor(m / 12) ? `${Math.floor(m / 12)} yr ` 
     text-decoration: underline;
     text-underline-offset: 0.2em;
   }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  .chev {
+    transition: transform 0.2s var(--ease);
+  }
+  details[open] .chev {
+    transform: rotate(90deg);
+  }
   .level-quest {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     margin-top: 12px;
     padding: 8px 0;
     font-weight: 700;
+  }
+  .lv {
+    display: inline-block;
+    margin-right: 12px;
+    padding: 4px 8px 2px;
+    background: var(--spot);
+    color: var(--on-spot);
+    vertical-align: 0.65em;
+    font-family: var(--font-label);
+    line-height: 1.2;
   }
   .tutorial article {
     border-top: 1px dashed var(--fg);

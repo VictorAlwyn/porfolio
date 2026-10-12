@@ -62,6 +62,7 @@ export function start(canvas: HTMLCanvasElement) {
   let tx = 0;
   let ty = 0;
   let lean = 0;
+  let rise = 0;
 
   function resize() {
     const w = canvas.clientWidth;
@@ -74,6 +75,7 @@ export function start(canvas: HTMLCanvasElement) {
     if (wide) camera.setViewOffset(w, h, -w * 0.17, 0, w, h);
     else camera.clearViewOffset();
     lean = wide ? 0 : 4.7;
+    rise = wide ? 0 : 4;
     camera.updateProjectionMatrix();
     uniforms.uCell.value = 8 * dpr;
     kick();
@@ -103,6 +105,7 @@ export function start(canvas: HTMLCanvasElement) {
       gaze.set(...used[0].look);
     }
     gaze.x += lean;
+    gaze.y -= rise;
     if (fine) {
       px += (tx * 1.4 - px) * 0.05;
       py += (ty * 0.8 - py) * 0.05;
