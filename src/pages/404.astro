@@ -31,4 +31,11 @@ import Base from '../layouts/Base.astro';
     font-size: clamp(3rem, 1.5rem + 6vw, 7rem);
     line-height: 0.9;
   }
+  /* Small copy never sits directly on the 3D layer. */
+  p:not(.code) {
+    width: fit-content;
+    padding: 12px 14px;
+    background: var(--stock);
+    border: var(--rule);
+  }
 </style>
