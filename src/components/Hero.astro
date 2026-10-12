@@ -65,7 +65,7 @@ const best = projects.filter((p) => p.type === 'Main quest').slice(0, 3);
               <a href={`/quests/${p.slug}`}>
                 <span class="best-n display" data-spot>{i + 1}</span>
                 <span class="best-t">
-                  <span class="display best-title">{p.company}</span>
+                  <span class="display best-title">{p.title.split(': ')[0]}</span>
                   <span class="best-m">{p.summary}</span>
                 </span>
               </a>
@@ -169,15 +169,13 @@ const best = projects.filter((p) => p.type === 'Main quest').slice(0, 3);
   }
   .facts div {
     display: grid;
-    grid-template-columns: 5.5rem 1fr;
-    gap: 8px;
+    gap: 2px;
     padding: 9px 0;
     border-top: var(--rule);
   }
   .facts dd {
     margin: 0;
     font-weight: 500;
-    overflow-wrap: anywhere;
   }
   .gh {
     display: inline-flex;

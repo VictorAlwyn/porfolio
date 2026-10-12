@@ -97,6 +97,10 @@
   --spot-text: var(--chartreuse);
 }
 
+[data-zone] {
+  color: var(--fg);
+}
+
 *,
 *::before,
 *::after {
@@ -227,6 +231,8 @@ dl {
   translate: 3px -2px;
   mix-blend-mode: multiply;
 }
+[data-zone='quests'] [data-spot],
+[data-zone='campaign'] [data-spot],
 [data-zone='contact'] [data-spot],
 :root[data-boss] [data-spot] {
   mix-blend-mode: normal;
@@ -306,6 +312,15 @@ dl {
   max-width: 62ch;
   margin-top: 20px;
   font-size: 1.05em;
+}
+/* Below the two-column layout the 3D sits behind everything, so loose copy gets a plate. */
+@media (max-width: 1099px) {
+  .lede {
+    width: fit-content;
+    padding: 12px 14px;
+    background: var(--stock);
+    border: var(--rule);
+  }
 }
 
 .panel {

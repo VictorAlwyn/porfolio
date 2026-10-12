@@ -10,11 +10,13 @@ const zones = gsap.utils.toArray<HTMLElement>('[data-zone]');
 rail.ids = zones.map((z) => z.dataset.zone!);
 if (rail.ids[0]) root.dataset.zone = rail.ids[0];
 
+// ScrollTrigger treats "exactly at the end" as having left, so the last zone ends just past the bottom of the page.
+const last = zones.length - 1;
 zones.forEach((el, i) =>
   ScrollTrigger.create({
     trigger: el,
     start: 'clamp(top center)',
-    end: 'clamp(bottom center)',
+    end: i === last ? () => ScrollTrigger.maxScroll(window) + 2 : 'clamp(bottom center)',
     onUpdate: (st) => {
       if (!st.isActive) return;
       rail.index = i;
@@ -29,6 +31,11 @@ zones.forEach((el, i) =>
     },
   }),
 );
+
+// The camera reaches a stop by the time its heading has scrolled into view: about 440px of flight, whatever the zone's height.
+const measure = () => (rail.dwell = zones.map((el) => gsap.utils.clamp(0.1, 0.4, 440 / el.offsetHeight)));
+measure();
+ScrollTrigger.addEventListener('refresh', measure);
 
 // Opening a <details> changes section heights, which moves every zone boundary below it.
 addEventListener('toggle', (e) => e.target instanceof HTMLDetailsElement && ScrollTrigger.refresh(), true);

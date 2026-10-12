@@ -1,4 +1,4 @@
-import { CatmullRomCurve3, Color, LinearSRGBColorSpace, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three';
+import { CatmullRomCurve3, Color, Fog, LinearSRGBColorSpace, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three';
 import { gsap } from 'gsap';
 import { rail, railT } from './rail.ts';
 import { uniforms } from './ink.ts';
@@ -17,6 +17,8 @@ export function start(canvas: HTMLCanvasElement) {
   renderer.setPixelRatio(dpr);
 
   const scene = new Scene();
+  // Hairlines are built-in line materials, so they fade with the same distances the dots do.
+  scene.fog = new Fog(uniforms.uPaper.value.clone(), uniforms.uFog.value.x, uniforms.uFog.value.y);
   const camera = new PerspectiveCamera(32, 1, 0.1, 300);
 
   const used = rail.ids.map((id) => art.zones.find((z) => z.id === id) ?? art.zones[0]);
@@ -59,6 +61,7 @@ export function start(canvas: HTMLCanvasElement) {
   let slow = 0;
   let tx = 0;
   let ty = 0;
+  let lean = 0;
 
   function resize() {
     const w = canvas.clientWidth;
@@ -67,8 +70,10 @@ export function start(canvas: HTMLCanvasElement) {
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     // On wide screens the sculpture sits in the open right-hand window beside the content column.
-    if (w / h > 1.25) camera.setViewOffset(w, h, -w * 0.17, 0, w, h);
+    const wide = w / h > 1.25;
+    if (wide) camera.setViewOffset(w, h, -w * 0.17, 0, w, h);
     else camera.clearViewOffset();
+    lean = wide ? 0 : 4.7;
     camera.updateProjectionMatrix();
     uniforms.uCell.value = 8 * dpr;
     kick();
@@ -86,7 +91,7 @@ export function start(canvas: HTMLCanvasElement) {
     const dt = Math.min((t - (last || t)) / 1000, 0.05);
     last = t;
 
-    const target = railT(rail.index, rail.local, n);
+    const target = railT(rail.index, rail.local, n, rail.dwell[rail.index]);
     cur += (target - cur) * (1 - Math.exp(-dt * 5));
     const moving = Math.abs(target - cur) > 0.0003 || rail.slip !== 0;
 
@@ -97,6 +102,7 @@ export function start(canvas: HTMLCanvasElement) {
       here.set(...used[0].cam);
       gaze.set(...used[0].look);
     }
+    gaze.x += lean;
     if (fine) {
       px += (tx * 1.4 - px) * 0.05;
       py += (ty * 0.8 - py) * 0.05;
@@ -115,6 +121,7 @@ export function start(canvas: HTMLCanvasElement) {
       if (near) b.update?.(i < rail.index ? 1 : i > rail.index ? 0 : rail.local, uniforms.uTime.value);
     });
     renderer.setClearColor(uniforms.uPaper.value);
+    scene.fog!.color.copy(uniforms.uPaper.value);
     renderer.render(scene, camera);
 
     // Frames that keep missing budget while the camera moves cost resolution once, never quality twice.

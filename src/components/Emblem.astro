@@ -14,11 +14,10 @@ const rnd = (n: number) => {
   const x = Math.sin(seed * 127.1 + n * 311.7) * 43758.5453;
   return x - Math.floor(x);
 };
-const cx = W * (0.3 + 0.4 * rnd(1));
+const cx = W * (0.4 + 0.2 * rnd(1));
 const cy = H * (0.32 + 0.36 * rnd(2));
 const R = 150 + 90 * rnd(3);
 const angle = rnd(4) * Math.PI;
-const flip = rnd(5) > 0.5;
 
 // Five dot sizes from one field: a soft blob plus a diagonal ramp.
 const bins: string[][] = [[], [], [], [], []];
@@ -30,14 +29,14 @@ for (let y = CELL / 2; y < H; y += CELL) {
     if (k > 0) bins[k].push(`M${x} ${y}h0`);
   }
 }
-const plate = { x: flip ? 40 : 330, y: 40 + 120 * rnd(6), w: 250, h: 150 };
+const plate = { x: 195, y: 40 + 120 * rnd(6), w: 250, h: 150 };
 ---
 
 <svg class="cover" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
   <rect width={W} height={H} fill="var(--stock)"></rect>
   <rect class="plate" data-spot x={plate.x} y={plate.y} width={plate.w} height={plate.h} fill="var(--spot)"></rect>
   {bins.map((d, i) => d.length > 0 && <path d={d.join('')} stroke="var(--fg)" stroke-width={3.4 * i} stroke-linecap="round" fill="none"></path>)}
-  <text class="glyph" x={flip ? W - 26 : 26} y={H - 28} text-anchor={flip ? 'end' : 'start'}>{glyph}</text>
+  <text class="glyph" x={W / 2} y={H - 30} text-anchor="middle">{glyph}</text>
   <path class="marks" d="M14 4v14M4 14h14M626 4v14M636 14h-14M14 356v-14M4 346h14M626 356v-14M636 346h-14" fill="none"></path>
 </svg>
 

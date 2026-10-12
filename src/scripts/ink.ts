@@ -1,4 +1,4 @@
-import { Color, ColorManagement, ShaderMaterial, Vector3 } from 'three';
+import { Color, ColorManagement, ShaderMaterial, Vector2, Vector3 } from 'three';
 
 // Hex colours are written straight to the framebuffer so the 3D inks match the CSS tokens exactly.
 ColorManagement.enabled = false;
@@ -13,11 +13,14 @@ export const uniforms = {
   uTime: { value: 0 },
   uCell: { value: 8 },
   uLight: { value: new Vector3(-0.55, 0.75, 0.6).normalize() },
+  // Screens lighten with distance, like atmosphere in a print, so only the sculpture you are at is drawn.
+  uFog: { value: new Vector2(46, 92) },
 };
 
 const vertexShader = /* glsl */ `
   uniform float uTime;
   varying vec3 vN;
+  varying float vDist;
   void main() {
     vec3 pos = position;
     vec3 nrm = normal;
@@ -36,7 +39,9 @@ const vertexShader = /* glsl */ `
       nrm = normalize(vec3(-dx, 1.0, -dz));
     #endif
     vN = normalize(mat3(m) * nrm);
-    gl_Position = projectionMatrix * viewMatrix * m * vec4(pos, 1.0);
+    vec4 mv = viewMatrix * m * vec4(pos, 1.0);
+    vDist = length(mv.xyz);
+    gl_Position = projectionMatrix * mv;
   }
 `;
 
@@ -50,7 +55,9 @@ const fragmentShader = /* glsl */ `
   uniform float uSlip;
   uniform float uCell;
   uniform float uSpotAmt;
+  uniform vec2 uFog;
   varying vec3 vN;
+  varying float vDist;
 
   float screenDist(vec2 fc, float ang) {
     float s = sin(ang);
@@ -59,6 +66,7 @@ const fragmentShader = /* glsl */ `
     return length(fract(p) - 0.5) * 2.0;
   }
   float dots(float cov, float d) {
+    if (cov < 0.02) return 0.0;
     if (cov > 0.97) return 1.0;
     float r = 1.3 * sqrt(max(cov, 0.0));
     float w = 2.0 / uCell;
@@ -74,9 +82,11 @@ const fragmentShader = /* glsl */ `
     // On dark paper the ink is the light, so the lit side carries the dots, like a negative print.
     float tone = mix(1.0 - shade, shade, uMul);
     vec2 fc = gl_FragCoord.xy;
-    float ink = dots(tone, screenDist(fc, 0.785398));
+    // Dots never merge into solid: headlines are printed through these sculptures and must stay readable.
+    float fade = (1.0 - smoothstep(uFog.x, uFog.y, vDist)) * 0.58;
+    float ink = dots(tone * fade, screenDist(fc, 0.785398));
     vec2 off = vec2(3.0 + uSlip * 14.0, -2.0 - uSlip * 7.0);
-    float spot = dots(clamp(lam * 0.95, 0.0, 1.0) * uSpotAmt, screenDist(fc - off, 0.261799));
+    float spot = dots(clamp(lam * 0.95, 0.0, 1.0) * uSpotAmt * fade, screenDist(fc - off, 0.261799));
 
     vec3 col = uPaper;
     col = mix(col, mix(uSpot, col * uSpot, uMul), spot);
