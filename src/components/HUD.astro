@@ -47,14 +47,6 @@ const links = [
       </ul>
     </nav>
 
-    <button class="sound" id="sound" type="button" aria-pressed="false" aria-label="Sound effects and ambience">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <path d="M4 9h4l5-4v14l-5-4H4z"></path>
-        <path class="on" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"></path>
-        <path class="off" d="m17 9 5 6M22 9l-5 6"></path>
-      </svg>
-    </button>
-
     <button class="xp" id="xp-open" type="button" aria-haspopup="dialog">
       <span class="xp-level" aria-hidden="true">LV <span id="xp-level">1</span></span>
       <span class="xp-track" aria-hidden="true"><span class="xp-fill" id="xp-fill"></span></span>
@@ -265,26 +257,6 @@ const links = [
       height: 100%;
       border-left: var(--rule);
     }
-  }
-
-  .sound {
-    display: grid;
-    place-items: center;
-    width: 52px;
-    flex: none;
-    border: 0;
-    border-left: var(--rule);
-    background: transparent;
-    color: var(--fg);
-    cursor: pointer;
-  }
-  .sound:hover {
-    background: var(--fg);
-    color: var(--stock);
-  }
-  .sound[aria-pressed='false'] .on,
-  .sound[aria-pressed='true'] .off {
-    display: none;
   }
 
   .xp {

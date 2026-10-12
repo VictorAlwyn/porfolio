@@ -1,7 +1,6 @@
 import { ACHIEVEMENTS, RELICS, SECTIONS, arcadeUnlocked, award, empty, levelFor, parse, progressFor, xpOf, type State } from './game';
 
 const KEY = 'alwyn-rpg-v1';
-const SOUND_KEY = 'alwyn-rpg-sound';
 const load = (): State => {
   try {
     return parse(localStorage.getItem(KEY));
@@ -77,7 +76,6 @@ function grant(event: string) {
   if (!hadArcade && arcadeUnlocked(state)) parts.push('Bonus stage unlocked');
   if (level > before) parts.push(`Level up! LV ${level}`);
   if (parts.length) toast(parts.join(' · '));
-  emit('rpg:xp', { event, gained: r.gained, levelUp: level > before, achievements: r.newly.length });
 }
 
 function secret() {
@@ -172,27 +170,6 @@ $('arcade-open')?.addEventListener('click', async () => {
   $('arc-start')?.focus();
 });
 arcade?.addEventListener('close', () => $('xp-open')?.focus());
-
-const soundBtn = $('sound');
-function setSound(on: boolean) {
-  soundBtn?.setAttribute('aria-pressed', String(on));
-  try {
-    localStorage.setItem(SOUND_KEY, on ? '1' : '0');
-  } catch {}
-  import('./sound.ts').then((m) => m.set(on));
-}
-soundBtn?.addEventListener('click', () => setSound(soundBtn.getAttribute('aria-pressed') !== 'true'));
-let wantsSound = false;
-try {
-  wantsSound = localStorage.getItem(SOUND_KEY) === '1';
-} catch {}
-if (wantsSound) {
-  // Browsers only start audio from a gesture, so a returning visitor's first tap or key resumes it.
-  soundBtn?.setAttribute('aria-pressed', 'true');
-  const resume = () => import('./sound.ts').then((m) => m.set(true));
-  addEventListener('pointerup', resume, { once: true });
-  addEventListener('keydown', resume, { once: true });
-}
 
 const nav = $('site-nav');
 nav?.addEventListener('click', (e) => {

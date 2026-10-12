@@ -35,7 +35,7 @@ test('first visit JavaScript stays under 55 KB gzipped', () => {
 });
 
 test('lazy chunks stay under budget', () => {
-  for (const [prefix, max] of [['world.', 165], ['arcade-ui.', 8], ['sound.', 3]] as const) {
+  for (const [prefix, max] of [['world.', 165], ['arcade-ui.', 8]] as const) {
     const names = chunk(prefix);
     assert.ok(names.length > 0, `${prefix} chunk missing`);
     const size = total(names);

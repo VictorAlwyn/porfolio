@@ -4,7 +4,7 @@ import { rail } from './rail.ts';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Zone tracking runs for everyone: it drives the page colour, the camera and sound, not only animation.
+// Zone tracking runs for everyone: it drives the page colour and the camera, not only animation.
 const root = document.documentElement;
 const zones = gsap.utils.toArray<HTMLElement>('[data-zone]');
 rail.ids = zones.map((z) => z.dataset.zone!);

@@ -184,7 +184,7 @@ A magazine spread grid. Every spread starts with a 1px ink top rule and `clamp(5
 
 The hero is three columns on hairlines from 1000px: left rail about 17% (issue facts, crest, GitHub, chapter contents), centre masthead, right rail about 22% ("Best work" 01 to 03). Below 1000px it collapses to one column: name at full width, swell behind, pitch plate, buttons, then best work; the contents list hides.
 
-The masthead is a sticky 56px bar of ruled cells: wordmark, chapter tabs (native popover menu below 900px), folio with level and XP track, sound, achievements. Breakpoints actually used: 700, 760, 900, 960, 1000, 1100px. Rhythm is hairline-ruled rows with 14 to 24px internal padding and `clamp(28px, 4vw, 56px)` between a title and its content. Interactive targets are at least 44px.
+The masthead is a sticky 56px bar of ruled cells: wordmark, chapter tabs (native popover menu below 900px), folio with level and XP track, achievements. Breakpoints actually used: 700, 760, 900, 960, 1000, 1100px. Rhythm is hairline-ruled rows with 14 to 24px internal padding and `clamp(28px, 4vw, 56px)` between a title and its content. Interactive targets are at least 44px.
 
 Chapter numbers double as hotkeys 1 to 5. Tenure on campaign records is shown as bar length.
 

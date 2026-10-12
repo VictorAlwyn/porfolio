@@ -32,7 +32,6 @@ export function init(dialog: HTMLDialogElement, onFinish: (score: number) => voi
   let left = false;
   let right = false;
   let target: number | undefined;
-  const sfx = (name: string) => document.dispatchEvent(new CustomEvent('rpg:sfx', { detail: name }));
 
   bestEl.textContent = String(best);
 
@@ -95,11 +94,10 @@ export function init(dialog: HTMLDialogElement, onFinish: (score: number) => voi
   function tick(t: number) {
     if (!run) return;
     const dir = (right ? 1 : 0) - (left ? 1 : 0);
-    const events = step(run, dir, (t - last) / 1000, dir === 0 ? target : undefined);
+    step(run, dir, (t - last) / 1000, dir === 0 ? target : undefined);
     last = t;
     scoreEl.textContent = String(run.score);
     timeEl.textContent = String(Math.ceil(DURATION - run.t));
-    for (const e of events) if (e !== 'miss') sfx(e);
     draw();
     if (!run.over) {
       raf = requestAnimationFrame(tick);

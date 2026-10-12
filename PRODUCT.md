@@ -23,7 +23,7 @@ Static Astro site deployed on Vercel. Visitors arrive on laptops and phones, inc
 - SEO and AI plumbing must be preserved: JSON-LD, canonical URLs, sitemap, `llms.txt` and the per-project pages at `/quests/<slug>`.
 - Stack: Astro, Three.js and GSAP, all already installed. No new runtime dependency without a reason.
 - Existing game mechanics stay: XP, levels, an achievements dialog, a Konami-code and crest-tap "boss mode", and progress saved in localStorage.
-- Confirmed additions to build: hidden collectibles, opt-in synthesized sound (muted by default) and an unlockable mini-game of about 60 seconds with a local high score.
+- Confirmed additions to build: hidden collectibles and an unlockable mini-game of about 60 seconds with a local high score.
 - Scrolling is the main control. One continuous 3D world sits behind the page and scrolling moves the camera through zones, one per section.
 
 ## Brand Commitments
@@ -46,5 +46,4 @@ Static Astro site deployed on Vercel. Visitors arrive on laptops and phones, inc
 ## Accessibility & Inclusion
 - Reduced motion gets a static but complete experience.
 - Keyboard and screen-reader users can collect items and play the mini-game.
-- Sound is off by default and opt-in.
 - Interactive targets are at least 44px.
