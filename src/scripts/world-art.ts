@@ -93,7 +93,7 @@ function meters(): Built {
   const peak = Math.max(...counts);
   const group = new Group();
   group.position.set(5, 0, z(3));
-  const seg = new BoxGeometry(1.05, 0.7, 1.05);
+  const seg = new BoxGeometry(0.95, 0.6, 0.95);
   const body = new InstancedMesh(seg, inkMaterial(), counts.length * peak);
   const caps = new InstancedMesh(seg, inkMaterial({ spot: 1 }), counts.length);
   const o = new Object3D();
@@ -101,7 +101,7 @@ function meters(): Built {
   counts.forEach((count, k) => {
     for (let j = 0; j < peak; j++) {
       const lit = j < count;
-      o.position.set((k - (counts.length - 1) / 2) * 1.45, j * 1.1, 0);
+      o.position.set((k - (counts.length - 1) / 2) * 1.2, j * 1.05, 0);
       o.scale.set(lit ? 1 : 0.3, lit ? 1 : 0.4, lit ? 1 : 0.3);
       o.updateMatrix();
       if (lit && j === count - 1) caps.setMatrixAt(k, o.matrix);
@@ -157,7 +157,7 @@ function records(tier: Tier): Built {
 
 function sun(tier: Tier): Built {
   const group = new Group();
-  group.position.set(4, 4.5, z(5));
+  group.position.set(5.2, 2.2, z(5));
   group.add(new Mesh(new IcosahedronGeometry(3.4, tier === 2 ? 5 : 3), inkMaterial({ spot: 1 })));
   [5, 6.4].forEach((r, i) => {
     const ring = new Mesh(new TorusGeometry(r, 0.07, 6, 90), inkMaterial());
@@ -181,7 +181,7 @@ export const art: WorldArt = {
     { id: 'hero', cam: [-2, 5.5, z(0) + 34], look: [-2, 5, z(0)], palette: { paper: foam, ink, spot: '#ff4a1f' }, build: swell },
     { id: 'about', ...beside(7, 4.2, 1), palette: { paper: '#d6d2c9', ink, spot: '#1f3bff' }, build: aperture },
     { id: 'quests', ...beside(-4, 4.5, 2, 4.2), palette: { paper: '#a7b4bb', ink, spot: '#c9f23c' }, build: slabs },
-    { id: 'skills', ...beside(5, 5, 3, 4.6), palette: { paper: foam, ink, spot: '#1f3bff' }, build: meters },
+    { id: 'skills', ...beside(5, 5, 3, 7.6), palette: { paper: foam, ink, spot: '#1f3bff' }, build: meters },
     { id: 'campaign', ...beside(-3, 6.5, 4, 6), palette: { paper: '#7fa29a', ink, spot: '#ff4a1f' }, build: records },
     { id: 'contact', ...beside(4, 4.5, 5), palette: { paper: ink, ink: foam, spot: '#ff4a1f', dark: true }, build: sun },
   ],

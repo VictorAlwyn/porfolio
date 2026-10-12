@@ -46,6 +46,7 @@
 /* One clashing spot colour per spread, set on both the page (fixed backdrop) and the spread itself. */
 :root[data-zone='hero'],
 [data-zone='hero'] {
+  --fg: var(--ink);
   --stock: var(--foam);
   --spot: var(--heat);
   --on-spot: var(--ink);
@@ -53,6 +54,7 @@
 }
 :root[data-zone='about'],
 [data-zone='about'] {
+  --fg: var(--ink);
   --stock: var(--bleach);
   --spot: var(--cobalt);
   --on-spot: var(--foam);
@@ -60,6 +62,7 @@
 }
 :root[data-zone='quests'],
 [data-zone='quests'] {
+  --fg: var(--ink);
   --stock: var(--haze);
   --spot: var(--chartreuse);
   --on-spot: var(--ink);
@@ -67,6 +70,7 @@
 }
 :root[data-zone='skills'],
 [data-zone='skills'] {
+  --fg: var(--ink);
   --stock: var(--foam);
   --spot: var(--cobalt);
   --on-spot: var(--foam);
@@ -74,6 +78,7 @@
 }
 :root[data-zone='campaign'],
 [data-zone='campaign'] {
+  --fg: var(--ink);
   --stock: var(--glass);
   --spot: var(--heat);
   --on-spot: var(--ink);

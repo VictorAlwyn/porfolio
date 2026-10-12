@@ -354,16 +354,16 @@ const links = [
 
   .toast {
     position: fixed;
-    left: 50%;
-    bottom: max(20px, env(safe-area-inset-bottom));
+    top: calc(var(--hud-h) + 10px);
+    right: var(--gutter);
     z-index: 60;
-    max-width: min(92vw, 560px);
+    max-width: min(calc(100vw - 2 * var(--gutter)), 420px);
     padding: 14px 20px;
     border: var(--rule);
     background: var(--fg);
     color: var(--stock);
-    text-align: center;
-    transform: translate(-50%, 140%);
+    text-align: left;
+    transform: translateY(-140%);
     opacity: 0;
     transition:
       transform 0.45s var(--ease),
@@ -371,7 +371,7 @@ const links = [
     pointer-events: none;
   }
   .toast.show {
-    transform: translate(-50%, 0);
+    transform: none;
     opacity: 1;
   }
 

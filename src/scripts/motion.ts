@@ -8,29 +8,26 @@ gsap.registerPlugin(ScrollTrigger);
 const root = document.documentElement;
 const zones = gsap.utils.toArray<HTMLElement>('[data-zone]');
 rail.ids = zones.map((z) => z.dataset.zone!);
-if (rail.ids[0]) root.dataset.zone = rail.ids[0];
-
-// ScrollTrigger treats "exactly at the end" as having left, so the last zone ends just past the bottom of the page.
-const last = zones.length - 1;
-zones.forEach((el, i) =>
-  ScrollTrigger.create({
-    trigger: el,
-    start: 'clamp(top center)',
-    end: i === last ? () => ScrollTrigger.maxScroll(window) + 2 : 'clamp(bottom center)',
-    onUpdate: (st) => {
-      if (!st.isActive) return;
-      rail.index = i;
-      rail.local = st.progress;
-    },
-    onToggle: (st) => {
-      if (!st.isActive) return;
-      rail.index = i;
-      rail.local = st.progress;
-      root.dataset.zone = rail.ids[i];
-      document.dispatchEvent(new CustomEvent('rpg:zone', { detail: rail.ids[i] }));
-    },
-  }),
-);
+// The active zone is the last one whose top has passed the viewport centre. Reading positions directly, rather than trigger
+// edges, stays correct at exactly the top and bottom of the page and after a jump straight to either.
+const clamp01 = gsap.utils.clamp(0, 1);
+let shown = '';
+function locate() {
+  const mid = innerHeight / 2;
+  let i = 0;
+  zones.forEach((el, k) => {
+    if (el.getBoundingClientRect().top <= mid) i = k;
+  });
+  const r = zones[i].getBoundingClientRect();
+  rail.index = i;
+  rail.local = clamp01((mid - r.top) / r.height);
+  if (rail.ids[i] === shown) return;
+  shown = rail.ids[i];
+  root.dataset.zone = shown;
+  document.dispatchEvent(new CustomEvent('rpg:zone', { detail: shown }));
+}
+ScrollTrigger.create({ start: 0, end: 'max', onUpdate: locate, onRefresh: locate });
+locate();
 
 // The camera reaches a stop by the time its heading has scrolled into view: about 440px of flight, whatever the zone's height.
 const measure = () => (rail.dwell = zones.map((el) => gsap.utils.clamp(0.1, 0.4, 440 / el.offsetHeight)));
