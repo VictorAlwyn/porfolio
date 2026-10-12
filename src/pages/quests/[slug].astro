@@ -16,6 +16,9 @@ interface Props {
 }
 
 const { project: p, next } = Astro.props;
+const [name, ...tagParts] = p.title.split(': ');
+const tag = tagParts.join(': ');
+const seed = projects.findIndex((x) => x.slug === p.slug) + 1;
 const site = Astro.site!;
 const path = `/quests/${p.slug}`;
 const url = new URL(path, site).href;
@@ -49,66 +52,72 @@ const jsonLd = [
 ---
 
 <Base title={`${p.title} | ${profile.shortName}`} description={p.summary} path={path} ogType="article" jsonLd={jsonLd} quest={p.slug}>
-  <article class="wrap qp" style={`--hue:${p.hue}`}>
-    <nav aria-label="Breadcrumb" class="crumbs">
-      <ol>
-        <li><a href="/">Home</a></li>
-        <li><a href="/#quests">Quests</a></li>
-        <li aria-current="page">{p.company}</li>
-      </ol>
-    </nav>
+  <article class="qp" data-zone="quests">
+    <div class="wrap">
+      <nav aria-label="Breadcrumb" class="crumbs">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/#quests">Quests</a></li>
+          <li aria-current="page">{p.company}</li>
+        </ol>
+      </nav>
 
-    <header class="qp-head">
-      <div class="qp-intro">
-        <p class="kicker">{p.type}</p>
-        <h1>{p.title}</h1>
-        <p class="qp-summary">{p.summary}</p>
-        <dl class="qp-facts">
-          <div><dt>Role</dt><dd>{p.role}</dd></div>
-          <div><dt>Guild</dt><dd>{p.company}</dd></div>
-          <div><dt>Period</dt><dd>{p.period}</dd></div>
-        </dl>
-        {
-          p.url && (
-            <a class="btn" href={p.url} rel="noopener" target="_blank">
-              Visit {p.company} ↗
-            </a>
-          )
-        }
-      </div>
-      <div class="qp-art panel">
-        {
-          p.image ? (
-            <img src={p.image} alt={`Screenshot of ${p.title}`} width="960" height="540" />
-          ) : (
-            <Emblem glyph={p.glyph} hue={p.hue} />
-          )
-        }
-      </div>
-    </header>
-
-    <div class="qp-grid">
-      <div class="qp-main">
-        <section aria-labelledby="brief" data-reveal>
-          <h2 id="brief">Quest briefing</h2>
-          <p>{p.brief}</p>
-        </section>
-        <section aria-labelledby="objectives" data-reveal>
-          <h2 id="objectives">Objectives completed</h2>
-          <ul class="objectives">{p.built.map((b) => <li>{b}</li>)}</ul>
-        </section>
-      </div>
-      <aside class="qp-side" data-reveal>
-        <div class="panel loot">
-          <h2>Loot: tech stack</h2>
-          <ul class="chips">{p.stack.map((s) => <li class="chip">{s}</li>)}</ul>
+      <header class="qp-head">
+        <div class="qp-intro">
+          <h1>
+            <span class="name display battered" data-spot>{name}</span>
+            {tag && <span class="sr-only">: </span>}
+            {tag && <span class="tag display">{tag}</span>}
+          </h1>
+          <p class="qp-summary">{p.summary}</p>
+          <dl class="qp-facts">
+            <div><dt class="label">Type</dt><dd>{p.type}</dd></div>
+            <div><dt class="label">Role</dt><dd>{p.role}</dd></div>
+            <div><dt class="label">Guild</dt><dd>{p.company}</dd></div>
+            <div><dt class="label">Period</dt><dd>{p.period}</dd></div>
+          </dl>
+          {
+            p.url && (
+              <a class="btn" href={p.url} rel="noopener" target="_blank">
+                Visit {p.company} ↗
+              </a>
+            )
+          }
         </div>
-        <a class="panel next" href={`/quests/${next.slug}`}>
-          <span class="kicker">Next quest</span>
-          <strong>{next.title}</strong>
-        </a>
-        <a class="btn btn-primary" href="/#contact">Recruit {profile.shortName.split(' ')[0]} to your party</a>
-      </aside>
+        <div class="qp-art panel">
+          {
+            p.image ? (
+              <img src={p.image} alt={`Screenshot of ${p.title}`} width="960" height="540" />
+            ) : (
+              <Emblem glyph={p.glyph} seed={seed} />
+            )
+          }
+        </div>
+      </header>
+
+      <div class="qp-grid">
+        <div class="qp-main">
+          <section aria-labelledby="brief" data-press>
+            <h2 id="brief" class="display">Quest briefing</h2>
+            <p>{p.brief}</p>
+          </section>
+          <section aria-labelledby="objectives" data-press>
+            <h2 id="objectives" class="display">Objectives completed</h2>
+            <ul class="objectives">{p.built.map((b) => <li>{b}</li>)}</ul>
+          </section>
+        </div>
+        <aside class="qp-side" data-press>
+          <div class="panel loot">
+            <h2 class="display">Loot: tech stack</h2>
+            <ul class="chips">{p.stack.map((s) => <li class="chip">{s}</li>)}</ul>
+          </div>
+          <a class="panel next" href={`/quests/${next.slug}`}>
+            <span class="label">Next quest</span>
+            <strong class="display">{next.title.split(': ')[0]}</strong>
+          </a>
+          <a class="btn btn-primary" href="/#contact">Recruit {profile.shortName.split(' ')[0]} to your party</a>
+        </aside>
+      </div>
     </div>
   </article>
 </Base>
@@ -122,70 +131,70 @@ const jsonLd = [
     flex-wrap: wrap;
     gap: 6px;
     list-style: none;
-    padding: 0;
-    margin: 0;
-    color: var(--dim);
     font-size: 0.9rem;
   }
   .crumbs li + li::before {
     content: '/';
     margin-right: 6px;
   }
-  .crumbs a {
-    color: var(--muted);
-  }
   .qp-head {
     display: grid;
     gap: 32px;
-    align-items: center;
-    margin-top: 32px;
+    align-items: start;
+    margin-top: 28px;
   }
   @media (min-width: 960px) {
     .qp-head {
-      grid-template-columns: 1.2fr 1fr;
-      gap: 56px;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 48px;
     }
   }
   h1 {
-    margin-top: 16px;
-    font-size: clamp(2rem, 1.3rem + 3vw, 3.6rem);
+    display: grid;
+    gap: 6px;
+  }
+  .name {
+    display: block;
+    width: fit-content;
+    font-size: clamp(4rem, 2rem + 9vw, 9rem);
+    line-height: 0.86;
+    color: var(--spot-text);
+  }
+  .tag {
+    font-size: clamp(1.6rem, 1.1rem + 1.8vw, 2.6rem);
+    line-height: 1;
   }
   .qp-summary {
-    margin-top: 18px;
-    color: var(--muted);
+    margin-top: 20px;
     font-size: 1.15rem;
     max-width: 56ch;
   }
   .qp-facts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 26px 0;
+    display: grid;
+    margin: 24px 0;
+    max-width: 480px;
+    border-bottom: var(--rule);
   }
   .qp-facts div {
-    padding: 10px 14px;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-sm);
-    background: var(--bg-2);
-  }
-  .qp-facts dt {
-    font-family: var(--font-pixel);
-    font-size: 0.52rem;
-    color: var(--gold);
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    gap: 8px;
+    padding: 9px 0;
+    border-top: var(--rule);
   }
   .qp-facts dd {
-    margin: 4px 0 0;
+    margin: 0;
     font-weight: 500;
   }
   .qp-art {
     aspect-ratio: 16 / 10;
     overflow: hidden;
-    box-shadow: 0 30px 80px -30px hsl(var(--hue) 90% 55% / 0.5);
   }
   .qp-art img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    filter: grayscale(1) contrast(1.25);
   }
   .qp-grid {
     display: grid;
@@ -209,53 +218,55 @@ const jsonLd = [
   }
   .qp-main h2,
   .loot h2 {
-    font-size: 1.5rem;
+    font-size: clamp(2.4rem, 1.8rem + 2vw, 3.4rem);
     margin-bottom: 16px;
   }
   .qp-main p {
-    color: var(--muted);
     font-size: 1.05rem;
     max-width: 66ch;
   }
   .objectives {
     list-style: none;
     display: grid;
-    gap: 12px;
+    border-top: var(--rule);
+    background: var(--stock);
   }
   .objectives li {
     position: relative;
     padding: 14px 16px 14px 48px;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-sm);
-    background: color-mix(in oklab, var(--panel) 80%, transparent);
-    color: var(--muted);
+    border-bottom: var(--rule);
   }
   .objectives li::before {
-    content: '✓';
+    content: '';
     position: absolute;
     left: 16px;
-    top: 14px;
-    color: var(--green);
-    font-weight: 700;
+    top: 19px;
+    width: 14px;
+    height: 8px;
+    border-left: 3px solid var(--fg);
+    border-bottom: 3px solid var(--fg);
+    transform: rotate(-45deg);
   }
   .qp-side {
     display: grid;
-    gap: 16px;
+    gap: 14px;
   }
   .loot {
-    padding: 22px;
-  }
-  .loot h2 {
-    font-size: 1.15rem;
+    padding: 20px;
   }
   .next {
     display: grid;
-    gap: 10px;
-    padding: 22px;
+    gap: 6px;
+    padding: 20px;
     text-decoration: none;
-    transition: border-color 0.2s;
+  }
+  .next strong {
+    font-size: 2.4rem;
+    line-height: 0.95;
+    font-weight: 400;
   }
   .next:hover {
-    border-color: var(--accent);
+    background: var(--fg);
+    color: var(--stock);
   }
 </style>

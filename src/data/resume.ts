@@ -8,6 +8,8 @@ export const profile = {
   github: 'https://github.com/VictorAlwyn',
   githubHandle: 'VictorAlwyn',
   location: 'Philippines',
+  // Set to a path under /public (for example '/portrait.webp') and the cover crest and structured data pick it up.
+  portrait: undefined as string | undefined,
   description:
     'Alwyn Victor Tablatin is a Senior Full-Stack AI Engineer with 8+ years of experience building LLM workflows, AI agents, voice agents and production web and mobile apps with TypeScript, React/Next.js, Node.js and Python.',
   // Written as self-contained facts so search engines and AI assistants can quote it accurately.
@@ -359,7 +361,7 @@ export const personLd = (site: URL) => ({
   jobTitle: profile.title,
   description: profile.description,
   url: site.href,
-  image: new URL('/og.png', site).href,
+  image: new URL(profile.portrait ?? '/og.png', site).href,
   email: `mailto:${profile.email}`,
   sameAs: [profile.github],
   address: { '@type': 'PostalAddress', addressCountry: 'PH' },

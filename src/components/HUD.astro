@@ -11,173 +11,280 @@ const links = [
 ];
 ---
 
-<header class="hud">
-  <div class="wrap hud-bar">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="i-explorer"><circle cx="12" cy="12" r="9"></circle><path d="m15.5 8.5-2.5 4.5-4.5 2.5L11 11z"></path></g>
+    <g id="i-quest-reader"><path d="M6 3h9l3 3v15H6z"></path><path d="M9 11h6M9 15h6"></path></g>
+    <g id="i-lore-master"><path d="M5 20V6h4v14M9 20V9h4v11M13 20l5-1-3-13-3 .8"></path></g>
+    <g id="i-scholar"><path d="M12 4 2 9l10 5 10-5z"></path><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"></path></g>
+    <g id="i-recruiter"><path d="M3 6h18v12H3z"></path><path d="m3 7 9 7 9-7"></path></g>
+    <g id="i-secret-finder"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"></path></g>
+    <g id="i-collector"><circle cx="12" cy="12" r="6"></circle><path d="M12 2v20M2 12h20"></path></g>
+    <g id="i-bonus-stage"><path d="m12 3 2.7 5.8 6.3.8-4.6 4.4 1.2 6.3-5.6-3.1-5.6 3.1 1.2-6.3L3 9.6l6.3-.8z"></path></g>
+    <g id="i-completionist"><path d="M7 4h10v5a5 5 0 0 1-10 0zM7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8"></path></g>
+  </defs>
+</svg>
+
+<header class="mast">
+  <div class="wrap mast-bar">
     <a href="/" class="brand">
-      <span class="brand-crest" aria-hidden="true">{profile.initials}</span>
+      <span class="brand-mark" aria-hidden="true">{profile.initials}</span>
       <span class="brand-name">{profile.shortName}</span>
     </a>
 
     <nav id="site-nav" popover aria-label="Main">
       <ul>
-        {links.map(([id, label]) => <li><a href={`/#${id}`}>{label}</a></li>)}
+        {
+          links.map(([id, label], i) => (
+            <li>
+              <a href={`/#${id}`} data-chapter={id}>
+                <span class="n" aria-hidden="true">{i + 1}</span>
+                {label}
+              </a>
+            </li>
+          ))
+        }
       </ul>
     </nav>
+
+    <button class="sound" id="sound" type="button" aria-pressed="false" aria-label="Sound effects and ambience">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M4 9h4l5-4v14l-5-4H4z"></path>
+        <path class="on" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"></path>
+        <path class="off" d="m17 9 5 6M22 9l-5 6"></path>
+      </svg>
+    </button>
 
     <button class="xp" id="xp-open" type="button" aria-haspopup="dialog">
       <span class="xp-level" aria-hidden="true">LV <span id="xp-level">1</span></span>
       <span class="xp-track" aria-hidden="true"><span class="xp-fill" id="xp-fill"></span></span>
       <span class="sr-only">Achievements, visitor level <span id="xp-sr">1</span></span>
-      <span class="xp-pop" id="xp-pop" aria-hidden="true"></span>
+      <span class="xp-pop label" id="xp-pop" aria-hidden="true"></span>
     </button>
 
     <button class="menu-btn" type="button" popovertarget="site-nav" aria-label="Open menu">
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" fill="none"></path>
       </svg>
     </button>
   </div>
 </header>
 
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="toast label" id="toast" role="status" aria-live="polite"></div>
 
 <dialog id="achievements" aria-labelledby="ach-title">
   <div class="dlg">
     <div class="dlg-head">
-      <h2 id="ach-title">Achievements</h2>
-      <form method="dialog"><button class="dlg-close" aria-label="Close achievements">✕</button></form>
+      <h2 id="ach-title" class="display">Achievements</h2>
+      <form method="dialog"><button class="dlg-close" aria-label="Close achievements">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19" stroke="currentColor" stroke-width="2" fill="none"></path></svg>
+      </button></form>
     </div>
-    <p class="dlg-xp"><span id="dlg-xp">0</span> XP · Level <span id="dlg-level">1</span></p>
+    <p class="dlg-xp label"><span id="dlg-xp">0</span> XP · Level <span id="dlg-level">1</span></p>
     <p class="dlg-note">An optional side game: explore the site to earn XP. Progress is saved in this browser only.</p>
     <ul class="ach-list">
       {
         ACHIEVEMENTS.map((a) => (
           <li class="ach" data-ach={a.id}>
-            <span class="ach-icon" aria-hidden="true">{a.icon}</span>
+            <span class="ach-icon" aria-hidden="true">
+              <svg class="ico" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="miter">
+                <use href={`#i-${a.id}`} />
+              </svg>
+            </span>
             <span class="ach-text">
               <strong>{a.title}</strong>
               <span>{a.description}</span>
             </span>
-            <span class="ach-state">Locked</span>
+            <span class="ach-state label">Locked</span>
           </li>
         ))
       }
     </ul>
-    <button id="xp-reset" class="btn" type="button">Reset progress</button>
+    <div class="dlg-actions">
+      <button id="arcade-open" class="btn btn-primary" type="button" hidden>Play the bonus stage</button>
+      <p id="arcade-hint" class="dlg-note">Bonus stage locked: find every hidden registration mark, or know the code.</p>
+      <button id="xp-reset" class="btn" type="button">Reset progress</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="arcade" aria-labelledby="arc-title">
+  <div class="dlg">
+    <div class="dlg-head">
+      <h2 id="arc-title" class="display">Press run</h2>
+      <form method="dialog"><button class="dlg-close" aria-label="Close bonus stage">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19" stroke="currentColor" stroke-width="2" fill="none"></path></svg>
+      </button></form>
+    </div>
+    <p class="dlg-note">Bonus stage, 60 seconds. Catch the sheets, dodge the ink blots. Move with the arrow keys or A and D, or drag on the sheet.</p>
+    <p class="arc-stats label">
+      <span>Score <b id="arc-score">0</b></span>
+      <span>Time <b id="arc-time">60</b></span>
+      <span>Best <b id="arc-best">0</b></span>
+    </p>
+    <canvas id="arc-canvas" tabindex="0" role="img" aria-label="Press run bonus stage. Move the roller left and right to catch falling sheets and avoid ink blots."></canvas>
+    <p id="arc-result" class="dlg-note" role="status" aria-live="polite"></p>
+    <button id="arc-start" class="btn btn-primary" type="button">Start</button>
   </div>
 </dialog>
 
 <style>
-  .hud {
+  .mast {
     position: sticky;
     top: 0;
     z-index: 50;
-    background: color-mix(in oklab, var(--bg) 78%, transparent);
-    backdrop-filter: blur(14px) saturate(140%);
-    -webkit-backdrop-filter: blur(14px) saturate(140%);
-    border-bottom: 1px solid color-mix(in oklab, var(--line) 70%, transparent);
+    background: var(--stock);
+    border-bottom: var(--rule);
   }
-  .hud-bar {
+  .mast-bar {
     height: var(--hud-h);
     display: flex;
-    align-items: center;
-    gap: 12px;
+    align-items: stretch;
+    padding-inline: 0 var(--gutter);
+    padding-left: var(--gutter);
   }
   .brand {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    text-decoration: none;
-    font-weight: 700;
     margin-right: auto;
+    padding-right: 16px;
     min-width: 0;
+    text-decoration: none;
   }
-  .brand-crest {
-    display: grid;
-    place-items: center;
-    width: 36px;
-    height: 36px;
-    flex: none;
-    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
-    background: linear-gradient(135deg, var(--gold), var(--accent));
-    color: #10121f;
-    font-family: var(--font-pixel);
-    font-size: 0.6rem;
+  .brand-mark {
+    padding: 7px 9px 4px;
+    background: var(--fg);
+    color: var(--stock);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1;
   }
   .brand-name {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  /* Mobile: nav is a native popover menu. */
+  /* Mobile: the chapter list is a native popover. */
   #site-nav {
     position: fixed;
-    inset: var(--hud-h) var(--gutter) auto auto;
-    margin: 8px 0 0;
-    padding: 8px;
-    min-width: 200px;
-    border: 1px solid var(--line-2);
-    border-radius: var(--radius);
-    background: var(--panel);
-    color: var(--text);
-    box-shadow: 0 20px 60px -20px #000;
+    inset: var(--hud-h) 0 auto auto;
+    margin: 0;
+    padding: 0;
+    min-width: 220px;
+    border: var(--rule);
+    background: var(--stock);
+    color: var(--fg);
   }
   #site-nav ul {
     list-style: none;
     display: grid;
   }
+  #site-nav li + li a {
+    border-top: var(--rule);
+  }
   #site-nav a {
-    display: block;
-    padding: 12px 14px;
-    border-radius: var(--radius-sm);
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 0 16px;
     text-decoration: none;
-    color: var(--muted);
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background-image: linear-gradient(var(--fg), var(--fg));
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    background-size: 0 4px;
+    transition: background-size 0.25s var(--ease);
   }
   #site-nav a:hover {
-    color: var(--text);
-    background: var(--panel-2);
+    background-color: var(--fg);
+    color: var(--stock);
+  }
+  .n {
+    min-width: 22px;
+    padding: 4px 4px 1px;
+    background: var(--spot);
+    color: var(--on-spot);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    line-height: 1;
+    text-align: center;
+  }
+  :root[data-zone='about'] a[data-chapter='about'],
+  :root[data-zone='quests'] a[data-chapter='quests'],
+  :root[data-zone='skills'] a[data-chapter='skills'],
+  :root[data-zone='campaign'] a[data-chapter='campaign'],
+  :root[data-zone='contact'] a[data-chapter='contact'] {
+    background-size: 100% 4px;
   }
 
   .menu-btn {
     display: grid;
     place-items: center;
-    width: 44px;
-    height: 44px;
+    width: 52px;
     flex: none;
-    border: 1px solid var(--line-2);
-    border-radius: 12px;
-    background: var(--panel);
-    color: var(--text);
+    border: 0;
+    border-left: var(--rule);
+    background: transparent;
+    color: var(--fg);
     cursor: pointer;
   }
 
-  @media (min-width: 880px) {
+  @media (min-width: 900px) {
     .menu-btn {
       display: none;
     }
-    /* Desktop: undo popover UA styles and show the nav inline. */
     #site-nav {
       display: block;
       position: static;
       inset: auto;
-      margin: 0 8px 0 0;
-      padding: 0;
       min-width: 0;
       border: 0;
-      background: none;
-      box-shadow: none;
       overflow: visible;
+      background: none;
     }
     #site-nav ul {
       display: flex;
-      gap: 4px;
+      height: 100%;
+    }
+    #site-nav li + li a {
+      border-top: 0;
     }
     #site-nav a {
-      padding: 8px 12px;
-      font-size: 0.95rem;
+      height: 100%;
+      border-left: var(--rule);
     }
+  }
+
+  .sound {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    flex: none;
+    border: 0;
+    border-left: var(--rule);
+    background: transparent;
+    color: var(--fg);
+    cursor: pointer;
+  }
+  .sound:hover {
+    background: var(--fg);
+    color: var(--stock);
+  }
+  .sound[aria-pressed='false'] .on,
+  .sound[aria-pressed='true'] .off {
+    display: none;
   }
 
   .xp {
@@ -185,31 +292,28 @@ const links = [
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    height: 44px;
-    padding: 0 14px;
-    border: 1px solid var(--line-2);
-    border-radius: 999px;
-    background: var(--panel);
-    color: var(--text);
+    padding: 0 16px;
+    border: 0;
+    border-left: var(--rule);
+    background: transparent;
+    color: var(--fg);
     cursor: pointer;
     flex: none;
   }
   .xp:hover {
-    border-color: var(--gold);
+    background: var(--fg);
+    color: var(--stock);
   }
   .xp-level {
-    font-family: var(--font-pixel);
-    font-size: 0.6rem;
-    color: var(--gold);
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    line-height: 1;
     white-space: nowrap;
   }
   .xp-track {
-    width: clamp(56px, 12vw, 110px);
-    height: 8px;
-    border-radius: 99px;
-    background: var(--bg-2);
-    border: 1px solid var(--line);
-    overflow: hidden;
+    width: clamp(48px, 9vw, 104px);
+    height: 10px;
+    border: 1px solid currentColor;
   }
   .xp-fill {
     display: block;
@@ -217,17 +321,16 @@ const links = [
     width: 100%;
     transform-origin: left;
     transform: scaleX(0);
-    background: linear-gradient(90deg, var(--gold), var(--gold-2));
-    box-shadow: 0 0 12px var(--gold);
+    background: var(--spot);
     transition: transform 0.6s var(--ease);
   }
   .xp-pop {
     position: absolute;
     right: 10px;
     top: 100%;
-    font-family: var(--font-pixel);
-    font-size: 0.55rem;
-    color: var(--gold);
+    padding: 2px 6px;
+    background: var(--fg);
+    color: var(--stock);
     opacity: 0;
     pointer-events: none;
     white-space: nowrap;
@@ -254,15 +357,11 @@ const links = [
     left: 50%;
     bottom: max(20px, env(safe-area-inset-bottom));
     z-index: 60;
-    max-width: min(92vw, 520px);
+    max-width: min(92vw, 560px);
     padding: 14px 20px;
-    border: 1px solid var(--gold);
-    border-radius: var(--radius);
-    background: color-mix(in oklab, var(--panel) 92%, transparent);
-    box-shadow:
-      0 0 0 4px color-mix(in oklab, var(--gold) 15%, transparent),
-      0 20px 50px -15px #000;
-    font-weight: 600;
+    border: var(--rule);
+    background: var(--fg);
+    color: var(--stock);
     text-align: center;
     transform: translate(-50%, 140%);
     opacity: 0;
@@ -277,17 +376,16 @@ const links = [
   }
 
   dialog {
-    width: min(92vw, 520px);
-    max-height: 85dvh;
+    width: min(94vw, 560px);
+    max-height: 88dvh;
     padding: 0;
-    border: 1px solid var(--line-2);
-    border-radius: 20px;
-    background: var(--panel);
-    color: var(--text);
+    border: 3px solid var(--fg);
+    border-radius: 0;
+    background: var(--stock);
+    color: var(--fg);
   }
   dialog::backdrop {
-    background: rgb(4 5 12 / 0.7);
-    backdrop-filter: blur(4px);
+    background: rgb(17 17 17 / 0.72);
   }
   .dlg {
     padding: 24px;
@@ -295,85 +393,108 @@ const links = [
   .dlg-head {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
   }
   .dlg-head h2 {
-    font-size: 1.5rem;
+    font-size: clamp(3rem, 2rem + 4vw, 4.5rem);
   }
   .dlg-close {
-    width: 44px;
-    height: 44px;
-    border: 1px solid var(--line-2);
-    border-radius: 12px;
-    background: var(--bg-2);
-    color: var(--text);
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: var(--rule);
+    background: transparent;
+    color: var(--fg);
     cursor: pointer;
-    font-size: 1rem;
+  }
+  .dlg-close:hover {
+    background: var(--fg);
+    color: var(--stock);
   }
   .dlg-xp {
-    margin-top: 6px;
-    font-family: var(--font-pixel);
-    font-size: 0.65rem;
-    color: var(--gold);
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: var(--rule);
   }
   .dlg-note {
     margin-top: 12px;
-    color: var(--muted);
-    font-size: 0.92rem;
+    font-size: 0.95rem;
+  }
+  .dlg-actions {
+    display: grid;
+    gap: 12px;
+    justify-items: start;
+  }
+  .arc-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14px;
+    padding-block: 10px;
+    border-block: var(--rule);
+  }
+  .arc-stats b {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    margin-left: 6px;
+  }
+  #arc-canvas {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    margin-top: 14px;
+    touch-action: none;
+    border: var(--rule);
+    cursor: ew-resize;
+  }
+  #arc-start {
+    margin-top: 6px;
   }
   .ach-list {
     list-style: none;
     display: grid;
-    gap: 10px;
     margin: 18px 0 20px;
+    border-top: var(--rule);
   }
   .ach {
     display: grid;
-    grid-template-columns: 44px 1fr auto;
+    grid-template-columns: 48px 1fr auto;
     align-items: center;
-    gap: 12px;
-    padding: 12px;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-sm);
-    background: var(--bg-2);
-    opacity: 0.6;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: var(--rule);
   }
   .ach-icon {
     display: grid;
     place-items: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: var(--panel-2);
-    font-size: 1.3rem;
-    filter: grayscale(1);
+    width: 48px;
+    height: 48px;
+    border: 1px dashed currentColor;
+  }
+  .ach-icon .ico {
+    visibility: hidden;
   }
   .ach-text {
     display: grid;
-    font-size: 0.9rem;
-    color: var(--muted);
+    font-size: 0.92rem;
   }
   .ach-text strong {
-    color: var(--text);
+    font-size: 1rem;
   }
   .ach-state {
-    font-family: var(--font-pixel);
-    font-size: 0.5rem;
-    color: var(--dim);
-  }
-  .ach[data-unlocked] {
-    opacity: 1;
-    border-color: color-mix(in oklab, var(--gold) 55%, var(--line));
+    text-align: right;
   }
   .ach[data-unlocked] .ach-icon {
-    filter: none;
-    background: color-mix(in oklab, var(--gold) 18%, var(--panel-2));
+    border: var(--rule);
+    background: var(--spot);
+    color: var(--on-spot);
   }
-  .ach[data-unlocked] .ach-state {
-    color: var(--gold);
+  .ach[data-unlocked] .ach-icon .ico {
+    visibility: visible;
   }
 
-  @media (max-width: 420px) {
+  @media (max-width: 480px) {
     .brand-name {
       display: none;
     }

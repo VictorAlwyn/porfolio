@@ -1,75 +1,94 @@
 ---
 import { profile, stats } from '../data/resume';
+import Relic from './Relic.astro';
 ---
 
-<section class="section" id="about" data-section="about" aria-labelledby="about-title">
-  <div class="wrap about">
-    <div data-reveal>
-      <p class="kicker">01 · Character bio</p>
-      <h2 class="section-title" id="about-title">The engineer behind the controller</h2>
-      <div class="bio">{profile.bio.map((p) => <p>{p}</p>)}</div>
+<section class="spread" id="about" data-section="about" data-zone="about" aria-labelledby="about-title">
+  <Relic id="about" at="top:4px;right:12%" />
+  <div class="wrap spread-inner">
+    <p class="side-head label" aria-hidden="true"><span>1 · Character bio</span><span>Chapter one</span></p>
+    <div class="spread-body">
+      <h2 id="about-title" class="title" data-press>The engineer behind the <span class="hot" data-spot>controller</span></h2>
+
+      <div class="cols">
+        <div class="bio panel" data-press>
+          {profile.bio.map((p) => <p>{p}</p>)}
+        </div>
+        <dl class="stats panel" data-press>
+          {
+            stats.map((s) => (
+              <div>
+                <dt class="label">{s.label}</dt>
+                <dd>
+                  <span class="display">{s.value}</span>
+                  {s.detail && <span class="detail">{s.detail}</span>}
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
     </div>
-    <ul class="stats" data-stagger>
-      {
-        stats.map((s) => (
-          <li class="stat panel">
-            <span class="stat-value">{s.value}</span>
-            <span class="stat-label">{s.label}</span>
-            {s.detail && <span class="stat-detail">{s.detail}</span>}
-          </li>
-        ))
-      }
-    </ul>
   </div>
 </section>
 
 <style>
-  .about {
-    display: grid;
-    gap: 48px;
-    align-items: center;
+  .hot {
+    display: inline-block;
+    color: var(--spot-text);
   }
-  @media (min-width: 960px) {
-    .about {
-      grid-template-columns: 1.25fr 1fr;
-      gap: 72px;
-    }
+  .cols {
+    display: grid;
+    margin-top: clamp(28px, 4vw, 56px);
   }
   .bio {
     display: grid;
     gap: 16px;
-    margin-top: 22px;
-    color: var(--muted);
-    max-width: 64ch;
+    padding: clamp(20px, 3vw, 36px);
+    max-width: 70ch;
   }
   .bio p:first-child {
-    color: var(--text);
-    font-size: 1.1em;
+    font-size: 1.22em;
+    line-height: 1.45;
+    font-weight: 500;
   }
   .stats {
-    list-style: none;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
-  .stat {
     display: grid;
     align-content: start;
-    gap: 6px;
-    padding: clamp(18px, 3vw, 26px);
+    margin-top: -1px;
   }
-  .stat-value {
-    font-family: var(--font-pixel);
-    font-size: clamp(1.4rem, 1rem + 1.6vw, 2.1rem);
-    line-height: 1.3;
-    color: var(--gold);
-    text-shadow: 0 0 24px color-mix(in oklab, var(--gold) 45%, transparent);
+  .stats div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px clamp(16px, 2vw, 24px);
+    border-top: var(--rule);
   }
-  .stat-label {
-    font-weight: 600;
+  .stats div:first-child {
+    border-top: 0;
   }
-  .stat-detail {
-    color: var(--dim);
-    font-size: 0.88rem;
+  .stats dd {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    text-align: right;
+  }
+  .stats .display {
+    font-size: 2.6rem;
+  }
+  .detail {
+    font-size: 0.86rem;
+  }
+
+  @media (min-width: 960px) {
+    .cols {
+      grid-template-columns: 1.4fr 1fr;
+    }
+    .stats {
+      margin-top: 0;
+      margin-left: -1px;
+    }
   }
 </style>

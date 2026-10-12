@@ -1,23 +1,21 @@
 ---
 import { profile } from '../data/resume';
+import Relic from './Relic.astro';
 ---
 
-<section class="section" id="contact" data-section="contact" aria-labelledby="contact-title">
-  <div class="wrap">
-    <div class="contact panel" data-reveal>
-      <p class="kicker">05 · Join the party</p>
-      <h2 class="section-title" id="contact-title">Have a quest that needs an AI engineer?</h2>
-      <p class="section-intro">
-        Send a message about a role, a product or a collaboration.
-      </p>
-      <p class="email">
+<section class="spread" id="contact" data-section="contact" data-zone="contact" aria-labelledby="contact-title">
+  <Relic id="contact" at="top:4px;left:18%" />
+  <div class="wrap spread-inner">
+    <p class="side-head label" aria-hidden="true"><span>5 · Join the party</span><span>Back cover</span></p>
+    <div class="spread-body">
+      <h2 id="contact-title" class="title" data-press>Have a quest that needs an AI <span class="hot" data-spot>engineer?</span></h2>
+      <p class="lede" data-press>Send a message about a role, a product or a collaboration.</p>
+      <p class="email display wide" data-press>
         <a href={`mailto:${profile.email}`} data-xp="contact">{profile.email}</a>
       </p>
       <div class="actions">
         <a class="btn btn-primary" href={`mailto:${profile.email}`} data-xp="contact">Send an email</a>
-        <a class="btn" href={profile.github} data-xp="contact" rel="me noopener" target="_blank">
-          GitHub · {profile.githubHandle}
-        </a>
+        <a class="btn" href={profile.github} data-xp="contact" rel="me noopener" target="_blank">GitHub · {profile.githubHandle}</a>
         <a class="btn" href="/resume.pdf" data-xp="resume" download="Alwyn-Tablatin-Resume.pdf">Resume (PDF)</a>
       </div>
     </div>
@@ -25,33 +23,35 @@ import { profile } from '../data/resume';
 </section>
 
 <style>
-  .contact {
-    padding: clamp(28px, 6vw, 72px);
-    text-align: center;
-    display: grid;
-    justify-items: center;
-    background:
-      radial-gradient(700px 260px at 50% 0%, color-mix(in oklab, var(--gold) 14%, transparent), transparent 70%),
-      linear-gradient(180deg, var(--panel-2), var(--panel));
-  }
-  .section-intro {
-    margin-inline: auto;
+  .hot {
+    display: inline-block;
+    color: var(--spot-text);
   }
   .email {
-    margin-top: 26px;
-    font-size: clamp(1.1rem, 0.9rem + 1.6vw, 1.8rem);
-    font-weight: 700;
+    margin-top: clamp(28px, 4vw, 56px);
+    font-size: clamp(2.2rem, 0.8rem + 6.4vw, 6.4rem);
+    line-height: 0.95;
     overflow-wrap: anywhere;
   }
   .email a {
-    text-decoration-color: var(--gold);
-    text-underline-offset: 6px;
+    text-decoration-line: underline;
+    text-decoration-color: var(--spot);
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.1em;
+  }
+  .email a:hover {
+    background: var(--spot);
+    color: var(--on-spot);
+    text-decoration-color: transparent;
   }
   .actions {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 28px;
+    gap: 10px;
+    margin-top: clamp(24px, 3vw, 40px);
+  }
+  .btn-primary:hover {
+    background: var(--fg);
+    color: var(--stock);
   }
 </style>

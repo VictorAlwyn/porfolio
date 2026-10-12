@@ -1,32 +1,100 @@
-:root {
-  color-scheme: dark;
-  --bg: #080a14;
-  --bg-2: #0d1020;
-  --panel: #121630;
-  --panel-2: #181d3d;
-  --line: #262d57;
-  --line-2: #343d75;
-  --text: #eceef9;
-  --muted: #a4aacb;
-  --dim: #7b82a8;
-  --gold: #f7c64f;
-  --gold-2: #ffdf8a;
-  --cyan: #5fe1ff;
-  --accent: var(--cyan);
-  --magenta: #ff6fb4;
-  --green: #6bf0a6;
-
-  --radius: 16px;
-  --radius-sm: 10px;
-  --gutter: clamp(16px, 4vw, 40px);
-  --max: 1160px;
-  --hud-h: 60px;
-  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+@property --stock {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #f3efe6;
+}
+@property --spot {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #ff4a1f;
 }
 
-:root[data-boss] {
-  --accent: var(--magenta);
-  --gold: #ff9a4f;
+:root {
+  color-scheme: light;
+  --foam: #f3efe6;
+  --bleach: #d6d2c9;
+  --haze: #a7b4bb;
+  --glass: #7fa29a;
+  --ink: #111111;
+  --heat: #ff4a1f;
+  --heat-text: #e8380b;
+  --cobalt: #1f3bff;
+  --chartreuse: #c9f23c;
+
+  --stock: var(--foam);
+  --fg: var(--ink);
+  --spot: var(--heat);
+  --on-spot: var(--ink);
+  --spot-text: var(--heat-text);
+  --muted: color-mix(in oklab, var(--fg) 86%, var(--stock));
+  --rule: 1px solid var(--fg);
+
+  --font-label: var(--font-body);
+  --gutter: clamp(16px, 3.4vw, 48px);
+  --max: 1440px;
+  --hud-h: 56px;
+  --shoulder: 56px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  14 0 0 0 -4.1'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+
+  transition:
+    --stock 0.7s var(--ease),
+    --spot 0.7s var(--ease);
+}
+
+/* One clashing spot colour per spread, set on both the page (fixed backdrop) and the spread itself. */
+:root[data-zone='hero'],
+[data-zone='hero'] {
+  --stock: var(--foam);
+  --spot: var(--heat);
+  --on-spot: var(--ink);
+  --spot-text: var(--heat-text);
+}
+:root[data-zone='about'],
+[data-zone='about'] {
+  --stock: var(--bleach);
+  --spot: var(--cobalt);
+  --on-spot: var(--foam);
+  --spot-text: var(--cobalt);
+}
+:root[data-zone='quests'],
+[data-zone='quests'] {
+  --stock: var(--haze);
+  --spot: var(--chartreuse);
+  --on-spot: var(--ink);
+  --spot-text: var(--ink);
+}
+:root[data-zone='skills'],
+[data-zone='skills'] {
+  --stock: var(--foam);
+  --spot: var(--cobalt);
+  --on-spot: var(--foam);
+  --spot-text: var(--cobalt);
+}
+:root[data-zone='campaign'],
+[data-zone='campaign'] {
+  --stock: var(--glass);
+  --spot: var(--heat);
+  --on-spot: var(--ink);
+  --spot-text: var(--ink);
+}
+:root[data-zone='contact'],
+[data-zone='contact'] {
+  --stock: var(--ink);
+  --fg: var(--foam);
+  --spot: var(--heat);
+  --on-spot: var(--ink);
+  --spot-text: var(--heat);
+}
+:root[data-boss],
+:root[data-boss][data-zone],
+:root[data-boss] [data-zone] {
+  --stock: var(--ink);
+  --fg: var(--foam);
+  --spot: var(--chartreuse);
+  --on-spot: var(--ink);
+  --spot-text: var(--chartreuse);
 }
 
 *,
@@ -39,21 +107,51 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--hud-h) + 16px);
   -webkit-text-size-adjust: 100%;
+  scrollbar-color: var(--fg) var(--stock);
+  scrollbar-width: thin;
 }
 
 body {
   margin: 0;
   min-height: 100dvh;
-  background:
-    radial-gradient(1200px 600px at 80% -10%, color-mix(in oklab, var(--accent) 10%, transparent), transparent 60%),
-    radial-gradient(900px 500px at -10% 30%, color-mix(in oklab, var(--magenta) 7%, transparent), transparent 60%),
-    var(--bg);
-  color: var(--text);
+  background: var(--stock);
+  color: var(--fg);
   font-family: var(--font-body);
   font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
-  line-height: 1.65;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
   overflow-x: clip;
+}
+
+/* Static halftone "photograph" for everyone the WebGL world does not reach: reduced motion, no WebGL, the first second. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 50%, color-mix(in oklab, var(--fg) 55%, transparent) 0 1.1px, transparent 1.6px) 0 0 / 9px 9px,
+    var(--stock);
+  mask-image: radial-gradient(90% 70% at 85% 95%, #000 0, transparent 70%);
+  -webkit-mask-image: radial-gradient(90% 70% at 85% 95%, #000 0, transparent 70%);
+  opacity: 0.45;
+}
+
+#world {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100lvh;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+#world.on {
+  opacity: 1;
 }
 
 img,
@@ -65,13 +163,13 @@ canvas {
 
 a {
   color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
 }
 
 h1,
 h2,
 h3 {
-  line-height: 1.12;
-  letter-spacing: -0.02em;
   margin: 0;
   text-wrap: balance;
 }
@@ -81,19 +179,22 @@ p {
   text-wrap: pretty;
 }
 
-ul {
+ul,
+ol,
+dl {
   margin: 0;
   padding: 0;
 }
 
 :focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 3px solid var(--fg);
   outline-offset: 3px;
-  border-radius: 4px;
+  box-shadow: 0 0 0 3px var(--stock);
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--accent) 35%, transparent);
+  background: var(--spot);
+  color: var(--on-spot);
 }
 
 .wrap {
@@ -103,100 +204,168 @@ ul {
   padding-inline: var(--gutter);
 }
 
-.section {
-  padding-block: clamp(72px, 10vw, 128px);
-}
-
-.kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-pixel);
-  font-size: 0.66rem;
-  letter-spacing: 0.08em;
+/* Type voices: League Gothic for headlines, Archivo for reading and tracked caps for labels. */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
   text-transform: uppercase;
-  color: var(--gold);
+  line-height: 0.86;
+  letter-spacing: 0;
 }
 
-.kicker::before {
-  content: '';
-  width: 8px;
-  height: 8px;
-  background: currentColor;
-  box-shadow: 0 0 12px currentColor;
+.label {
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
-.section-title {
-  font-size: clamp(2rem, 1.4rem + 2.6vw, 3.25rem);
-  margin-top: 14px;
+/* The spot plate sits slightly off register by design; motion.ts adds scroll-speed slip on top. */
+[data-spot] {
+  translate: 3px -2px;
+  mix-blend-mode: multiply;
+}
+[data-zone='contact'] [data-spot],
+:root[data-boss] [data-spot] {
+  mix-blend-mode: normal;
 }
 
-.section-intro {
-  color: var(--muted);
+.battered {
+  -webkit-mask-image: var(--grain);
+  mask-image: var(--grain);
+  mask-size: 240px 240px;
+  -webkit-mask-size: 240px 240px;
+}
+
+/* A spread is one magazine page: hairline top, a vertical side-head in the shoulder, content on the right. */
+.spread {
+  position: relative;
+  border-top: var(--rule);
+  padding-block: clamp(56px, 8vw, 112px);
+}
+
+.spread-inner {
+  display: grid;
+  gap: 0;
+}
+
+.side-head {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .spread-inner {
+    grid-template-columns: var(--shoulder) 1fr;
+    column-gap: clamp(24px, 3vw, 48px);
+  }
+  .side-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    padding-block: 4px;
+    border-left: var(--rule);
+    padding-left: 12px;
+  }
+}
+
+.spread-body {
+  min-width: 0;
+}
+/* Content keeps the left column; the right stays an open window onto the 3D world, and headlines run across both. */
+@media (min-width: 1100px) {
+  .spread-body {
+    display: grid;
+    grid-template-columns: minmax(0, 62%) 1fr;
+    align-content: start;
+  }
+  .spread-body > .title {
+    grid-column: 1 / -1;
+  }
+  .spread-body > :not(.title) {
+    grid-column: 1;
+  }
+  .spread-body > .wide {
+    grid-column: 1 / -1;
+  }
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.86;
+  font-size: clamp(3.4rem, 1.2rem + 10.5vw, 9.5rem);
+}
+
+.lede {
   max-width: 62ch;
-  margin-top: 14px;
+  margin-top: 20px;
+  font-size: 1.05em;
 }
 
 .panel {
-  background: linear-gradient(180deg, color-mix(in oklab, var(--panel-2) 80%, transparent), var(--panel));
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  background: var(--stock);
+  border: var(--rule);
 }
 
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  min-height: 48px;
+  gap: 12px;
+  min-height: 52px;
   padding: 12px 22px;
-  border-radius: 999px;
-  border: 1px solid var(--line-2);
-  background: var(--panel);
-  color: var(--text);
-  font: 600 0.98rem/1 var(--font-body);
+  border: var(--rule);
+  background: transparent;
+  color: var(--fg);
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
   transition:
-    transform 0.2s var(--ease),
-    border-color 0.2s,
-    background 0.2s,
-    box-shadow 0.2s;
+    background-color 0.18s,
+    color 0.18s;
 }
-
 .btn:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent);
+  background: var(--fg);
+  color: var(--stock);
 }
-
 .btn-primary {
-  background: var(--gold);
-  border-color: var(--gold);
-  color: #1a1305;
-  box-shadow: 0 8px 30px -10px var(--gold);
+  background: var(--spot);
+  color: var(--on-spot);
+  border-color: var(--ink);
 }
-
 .btn-primary:hover {
-  border-color: var(--gold-2);
-  background: var(--gold-2);
+  background: var(--fg);
+  color: var(--stock);
 }
-
-.chip {
-  display: inline-block;
-  padding: 4px 11px;
-  border-radius: 999px;
-  border: 1px solid var(--line-2);
-  background: color-mix(in oklab, var(--bg) 60%, transparent);
-  color: var(--muted);
-  font-size: 0.8rem;
-  line-height: 1.5;
+.btn .arrow {
+  width: 1.1em;
+  height: 1.1em;
+  flex: none;
 }
 
 .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
   list-style: none;
+}
+.chip {
+  display: inline-block;
+  padding: 3px 9px;
+  border: var(--rule);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  background: var(--stock);
 }
 
 .skip-link {
@@ -205,12 +374,11 @@ ul {
   top: -100px;
   z-index: 100;
   padding: 10px 16px;
-  background: var(--gold);
-  color: #1a1305;
-  border-radius: var(--radius-sm);
+  background: var(--spot);
+  color: var(--on-spot);
+  border: var(--rule);
   font-weight: 700;
 }
-
 .skip-link:focus {
   top: 12px;
 }

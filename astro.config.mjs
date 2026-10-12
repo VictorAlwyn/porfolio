@@ -9,7 +9,7 @@ export default defineConfig({
   integrations: [sitemap({ filter: (page) => !page.includes('/404') })],
   fonts: [
     {
-      name: 'Space Grotesk',
+      name: 'Archivo',
       cssVariable: '--font-body',
       provider: fontProviders.google(),
       weights: [400, 500, 700],
@@ -18,13 +18,13 @@ export default defineConfig({
       fallbacks: ['system-ui', 'sans-serif'],
     },
     {
-      name: 'Press Start 2P',
-      cssVariable: '--font-pixel',
+      name: 'League Gothic',
+      cssVariable: '--font-display',
       provider: fontProviders.google(),
       weights: [400],
       styles: ['normal'],
       subsets: ['latin'],
-      fallbacks: ['monospace'],
+      fallbacks: ['sans-serif'],
     },
   ],
 });

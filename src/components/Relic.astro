@@ -1,0 +1,52 @@
+---
+// A hidden item: a printer's registration mark tucked into the page. Script un-hides it, so no-JS visitors never see a dead button.
+interface Props {
+  id: string;
+  at: string;
+}
+const { id, at } = Astro.props;
+---
+
+<button type="button" class="relic" data-xp={`relic:${id}`} aria-label="Hidden registration mark (optional game): collect" style={at} hidden>
+  <svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true">
+    <circle cx="16" cy="16" r="8"></circle>
+    <path d="M16 1v30M1 16h30"></path>
+  </svg>
+</button>
+
+<style>
+  .relic {
+    position: absolute;
+    z-index: 4;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--fg);
+    cursor: pointer;
+  }
+  .relic[hidden] {
+    display: none;
+  }
+  svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    transition: transform 0.3s var(--ease);
+  }
+  .relic:hover svg {
+    transform: rotate(45deg) scale(1.15);
+  }
+  .relic[data-got] {
+    cursor: default;
+  }
+  .relic[data-got] circle {
+    fill: var(--spot);
+  }
+  .relic[data-got]:hover svg {
+    transform: none;
+  }
+</style>

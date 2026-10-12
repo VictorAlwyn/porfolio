@@ -33,8 +33,8 @@ const year = new Date().getFullYear();
     <link rel="canonical" href={canonical} />
     <meta name="author" content={profile.name} />
     <meta name="robots" content={noindex ? 'noindex' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
-    <meta name="theme-color" content="#080a14" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#f3efe6" />
+    <meta name="color-scheme" content="light" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="alternate" type="text/plain" href="/llms.txt" title="Plain-text profile for AI assistants" />
@@ -54,11 +54,12 @@ const year = new Date().getFullYear();
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <Font cssVariable="--font-body" preload={[{ weight: '400' }, { weight: '700' }]} />
-    <Font cssVariable="--font-pixel" />
+    <Font cssVariable="--font-display" preload />
+    <Font cssVariable="--font-body" preload={[{ weight: '400' }]} />
     {jsonLd.length > 0 && <script type="application/ld+json" set:html={ld} />}
   </head>
   <body data-quest={quest}>
+    <canvas id="world" aria-hidden="true"></canvas>
     <a class="skip-link" href="#main">Skip to content</a>
     <HUD />
     <main id="main">
@@ -66,22 +67,39 @@ const year = new Date().getFullYear();
     </main>
     <footer class="site-footer">
       <div class="wrap footer-inner">
-        <p>© {year} {profile.name}. Built with Astro, Three.js and GSAP.</p>
-        <p class="footer-hint">Psst: old-school cheat codes work here.</p>
+        <p>© {year} {profile.name}. Set in League Gothic and Archivo. Built with Astro, Three.js and GSAP.</p>
+        <p class="label footer-hint">Appendix: old-school cheat codes work here.</p>
       </div>
     </footer>
     <script>
       import '../scripts/hud.ts';
       import '../scripts/motion.ts';
+
+      // The WebGL world is decoration: no WebGL2, reduced motion or Save-Data keeps the printed CSS backdrop.
+      const canvas = document.getElementById('world') as HTMLCanvasElement | null;
+      const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const saveData = (navigator as { connection?: { saveData?: boolean } }).connection?.saveData;
+      const probe = canvas && !calm && !saveData ? document.createElement('canvas').getContext('webgl2', { failIfMajorPerformanceCaveat: true }) : null;
+      if (canvas && probe) {
+        probe.getExtension('WEBGL_lose_context')?.loseContext();
+        const idle = (cb: () => void) => ('requestIdleCallback' in window ? requestIdleCallback(cb, { timeout: 3000 }) : setTimeout(cb, 200));
+        const boot = () =>
+          idle(() =>
+            import('../scripts/world.ts')
+              .then((m) => m.start(canvas))
+              .catch(() => {}),
+          );
+        document.readyState === 'complete' ? boot() : addEventListener('load', boot, { once: true });
+      }
     </script>
   </body>
 </html>
 
 <style>
   .site-footer {
-    border-top: 1px solid var(--line);
+    border-top: var(--rule);
     padding-block: 28px;
-    color: var(--dim);
+    background: var(--stock);
     font-size: 0.9rem;
   }
   .footer-inner {
@@ -89,10 +107,5 @@ const year = new Date().getFullYear();
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 8px 24px;
-  }
-  .footer-hint {
-    font-family: var(--font-pixel);
-    font-size: 0.6rem;
-    line-height: 2;
   }
 </style>

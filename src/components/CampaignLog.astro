@@ -1,198 +1,173 @@
 ---
-import { education, experience } from '../data/resume';
+import { education, experience, type Role } from '../data/resume';
+import Relic from './Relic.astro';
 
 const VISIBLE = 2;
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const at = (s: string) => {
+  if (s === 'Present') {
+    const d = new Date();
+    return d.getFullYear() * 12 + d.getMonth();
+  }
+  const [m, y] = s.split(' ');
+  return Number(y) * 12 + MONTHS.indexOf(m);
+};
+const months = (r: Role) => Math.max(1, at(r.end) - at(r.start) + 1);
+const longest = Math.max(...experience.map(months));
+const span = (m: number) => `${Math.floor(m / 12) ? `${Math.floor(m / 12)} yr ` : ''}${m % 12 ? `${m % 12} mo` : ''}`.trim();
 ---
 
-<section class="section" id="campaign" data-section="campaign" aria-labelledby="campaign-title">
-  <div class="wrap">
-    <div data-reveal>
-      <p class="kicker">04 · Campaign log</p>
-      <h2 class="section-title" id="campaign-title">Work experience</h2>
-      <p class="section-intro">
-        Every role is a level. {experience.length} cleared so far, from teaching programming to building AI products.
+<section class="spread" id="campaign" data-section="campaign" data-zone="campaign" aria-labelledby="campaign-title">
+  <Relic id="campaign" at="top:4px;left:68%" />
+  <div class="wrap spread-inner">
+    <p class="side-head label" aria-hidden="true"><span>4 · Campaign log</span><span>Chapter four</span></p>
+    <div class="spread-body">
+      <h2 id="campaign-title" class="title" data-press>Work <span class="hot" data-spot>experience</span></h2>
+      <p class="lede" data-press>
+        Every role is a level. {experience.length} cleared so far, from teaching programming to building AI products. Each bar is the
+        time spent there.
       </p>
-    </div>
 
-    <ol class="log" data-timeline>
-      {
-        experience.map((r, i) => (
-          <li class="level">
-            <span class="marker" aria-hidden="true">
-              {experience.length - i}
-            </span>
-            <article class="level-body">
-              <p class="level-meta">
-                <span class="level-num">LV {experience.length - i}</span>
-                <span>
-                  {r.start} – {r.end}
-                </span>
-              </p>
-              <h3>{r.role}</h3>
-              <p class="level-org">
-                <strong>{r.company}</strong> · {r.location}
-              </p>
-              <ul class="bullets">
-                {r.bullets.slice(0, VISIBLE).map((b) => (
-                  <li>{b}</li>
-                ))}
-              </ul>
-              {r.bullets.length > VISIBLE && (
-                <details>
-                  <summary>Show {r.bullets.length - VISIBLE} more</summary>
+      <ol class="log">
+        {
+          experience.map((r, i) => (
+            <li class="level" data-months={months(r)}>
+              <article>
+                <div class="when">
+                  <p class="label lv">LV {experience.length - i}</p>
+                  <p class="dates">
+                    {r.start} – {r.end}
+                  </p>
+                  <span class="bar" aria-hidden="true"><span class="fill" data-bar style={`--w:${(months(r) / longest) * 100}%`}></span></span>
+                  <p class="label">{span(months(r))}</p>
+                </div>
+                <div class="what">
+                  <h3 class="display">{r.role}</h3>
+                  <p class="org">
+                    <strong>{r.company}</strong> · {r.location}
+                  </p>
                   <ul class="bullets">
-                    {r.bullets.slice(VISIBLE).map((b) => (
+                    {r.bullets.slice(0, VISIBLE).map((b) => (
                       <li>{b}</li>
                     ))}
                   </ul>
-                </details>
-              )}
-              {r.quest && (
-                <a class="level-quest" href={`/quests/${r.quest}`}>
-                  View quest →
-                </a>
-              )}
-            </article>
-          </li>
-        ))
-      }
-      <li class="level tutorial">
-        <span class="marker" aria-hidden="true">0</span>
-        <article class="level-body">
-          <p class="level-meta">
-            <span class="level-num">Tutorial</span>
-            <span>{education.years}</span>
-          </p>
-          <h3>{education.degree}</h3>
-          <p class="level-org"><strong>{education.school}</strong> · {education.location}</p>
-        </article>
-      </li>
-    </ol>
+                  {r.bullets.length > VISIBLE && (
+                    <details>
+                      <summary>Show {r.bullets.length - VISIBLE} more</summary>
+                      <ul class="bullets">
+                        {r.bullets.slice(VISIBLE).map((b) => (
+                          <li>{b}</li>
+                        ))}
+                      </ul>
+                    </details>
+                  )}
+                  {r.quest && (
+                    <a class="level-quest" href={`/quests/${r.quest}`}>
+                      View quest →
+                    </a>
+                  )}
+                </div>
+              </article>
+            </li>
+          ))
+        }
+        <li class="level tutorial">
+          <article>
+            <div class="when">
+              <p class="label lv">Tutorial</p>
+              <p class="dates">{education.years}</p>
+            </div>
+            <div class="what">
+              <h3 class="display">{education.degree}</h3>
+              <p class="org"><strong>{education.school}</strong> · {education.location}</p>
+            </div>
+          </article>
+        </li>
+      </ol>
+    </div>
   </div>
 </section>
 
 <style>
+  .hot {
+    display: inline-block;
+    background: var(--spot);
+    color: var(--on-spot);
+    padding: 0 0.12em;
+  }
   .log {
-    --progress: 1;
-    position: relative;
     list-style: none;
-    margin: 48px 0 0;
-    padding: 0;
-    display: grid;
-    gap: 18px;
-  }
-  .log::before,
-  .log::after {
-    content: '';
-    position: absolute;
-    left: 21px;
-    top: 8px;
-    bottom: 8px;
-    width: 2px;
-    background: var(--line);
-  }
-  .log::after {
-    background: linear-gradient(var(--gold), var(--accent));
-    transform-origin: top;
-    transform: scaleY(var(--progress));
+    margin-top: clamp(28px, 4vw, 52px);
+    border-top: var(--rule);
+    border-left: var(--rule);
+    border-right: var(--rule);
+    background: var(--stock);
   }
   .level {
-    position: relative;
+    border-bottom: var(--rule);
+  }
+  .level article {
     display: grid;
-    grid-template-columns: 44px 1fr;
-    gap: 14px;
+    gap: 14px 28px;
+    padding: 18px clamp(16px, 2vw, 24px);
   }
-  @media (min-width: 720px) {
-    .level {
-      gap: 24px;
-    }
-  }
-  .marker {
-    position: relative;
-    z-index: 1;
+  .when {
     display: grid;
-    place-items: center;
-    width: 44px;
-    height: 48px;
-    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
-    background: var(--panel-2);
-    color: var(--gold);
-    font-family: var(--font-pixel);
-    font-size: 0.6rem;
-    margin-top: 14px;
+    gap: 6px;
+    align-content: start;
   }
-  .level:first-child .marker {
-    background: linear-gradient(135deg, var(--gold), var(--accent));
-    color: #10121f;
+  .dates {
+    font-weight: 600;
   }
-  .level-body {
-    min-width: 0;
-    padding: clamp(16px, 3vw, 24px);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: color-mix(in oklab, var(--panel) 85%, transparent);
+  .bar {
+    display: block;
+    height: 12px;
+    border: 1px solid var(--fg);
   }
-  .level-meta {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 6px 16px;
-    color: var(--dim);
-    font-size: 0.88rem;
-  }
-  .level-num {
-    font-family: var(--font-pixel);
-    font-size: 0.58rem;
-    line-height: 2.2;
-    color: var(--gold);
+  .fill {
+    display: block;
+    height: 100%;
+    width: var(--w);
+    background: var(--fg);
   }
   h3 {
+    font-size: clamp(1.9rem, 1.5rem + 1.4vw, 2.6rem);
+    line-height: 0.95;
+  }
+  .org {
     margin-top: 6px;
-    font-size: clamp(1.1rem, 1rem + 0.5vw, 1.3rem);
-  }
-  .level-org {
-    margin-top: 4px;
-    color: var(--muted);
-    font-size: 0.95rem;
-  }
-  .level-org strong {
-    color: var(--text);
-    font-weight: 600;
   }
   .bullets {
     display: grid;
     gap: 8px;
     margin-top: 14px;
     padding-left: 20px;
-    color: var(--muted);
     font-size: 0.95rem;
-  }
-  .bullets li::marker {
-    color: var(--accent);
   }
   details {
     margin-top: 10px;
   }
   summary {
     cursor: pointer;
-    color: var(--accent);
-    font-weight: 600;
-    font-size: 0.92rem;
+    font-weight: 700;
     width: fit-content;
-    padding: 6px 0;
+    padding: 8px 0;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
   }
   .level-quest {
     display: inline-block;
-    margin-top: 14px;
-    color: var(--gold);
-    font-weight: 600;
-    text-decoration: none;
-    padding: 6px 0;
+    margin-top: 12px;
+    padding: 8px 0;
+    font-weight: 700;
   }
-  .level-quest:hover {
-    text-decoration: underline;
+  .tutorial article {
+    border-top: 1px dashed var(--fg);
   }
-  .tutorial .level-body {
-    border-style: dashed;
+
+  @media (min-width: 900px) {
+    .level article {
+      grid-template-columns: 13rem 1fr;
+    }
   }
 </style>
