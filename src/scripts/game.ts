@@ -12,9 +12,10 @@ export type Achievement = {
 };
 
 export const SECTIONS = ['about', 'quests', 'skills', 'campaign', 'contact'];
+export const RELICS = ['hero', 'about', 'quests', 'skills', 'campaign', 'contact'];
 export const XP_PER_LEVEL = 100;
 export const ACHIEVEMENT_XP = 50;
-const EVENT_XP: Record<string, number> = { section: 10, quest: 25, resume: 50, contact: 50, secret: 50 };
+const EVENT_XP: Record<string, number> = { section: 10, quest: 25, relic: 20, resume: 50, contact: 50, secret: 50, arcade: 50 };
 
 const kind = (event: string) => event.split(':')[0];
 const questCount = (events: string[]) => events.filter((e) => kind(e) === 'quest').length;
@@ -39,6 +40,14 @@ export const ACHIEVEMENTS: Achievement[] = [
     test: (ev) => ev.includes('secret'),
   },
   {
+    id: 'collector',
+    title: 'Collector',
+    description: 'Find every registration mark hidden in the issue.',
+    icon: '⌖',
+    test: (ev) => RELICS.every((r) => ev.includes(`relic:${r}`)),
+  },
+  { id: 'bonus-stage', title: 'Bonus Stage', description: 'Finish a press run in the bonus stage.', icon: '◐', test: (ev) => ev.includes('arcade') },
+  {
     id: 'completionist',
     title: 'Completionist',
     description: 'Unlock every other achievement.',
@@ -49,6 +58,9 @@ export const ACHIEVEMENTS: Achievement[] = [
 ];
 
 export const empty = (): State => ({ events: [], unlocked: [] });
+
+// Unlocks from Collector or the secret code, never from Completionist, which would make Bonus Stage unreachable.
+export const arcadeUnlocked = (s: State) => s.unlocked.includes('collector') || s.events.includes('secret');
 
 export const xpOf = (s: State) =>
   s.events.reduce((sum, e) => sum + (EVENT_XP[kind(e)] ?? 0), 0) + s.unlocked.length * ACHIEVEMENT_XP;
