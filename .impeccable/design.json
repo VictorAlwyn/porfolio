@@ -1,0 +1,374 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-12T10:16:24.218Z",
+  "title": "Design System: Alwyn Tablatin Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "foam": {
+        "role": "neutral",
+        "displayName": "Uncoated Foam",
+        "canonical": "#f3efe6",
+        "tonalRamp": [
+          "#31302e",
+          "#61605c",
+          "#928f8a",
+          "#c2bfb8",
+          "#f3efe6",
+          "#f5f2eb",
+          "#f8f5f0",
+          "#faf9f5"
+        ]
+      },
+      "sun-bleach": {
+        "role": "neutral",
+        "displayName": "Sun Bleach",
+        "canonical": "#d6d2c9",
+        "tonalRamp": [
+          "#2b2a28",
+          "#565450",
+          "#807e79",
+          "#aba8a1",
+          "#d6d2c9",
+          "#dedbd4",
+          "#e6e4df",
+          "#efede9"
+        ]
+      },
+      "salt-haze": {
+        "role": "neutral",
+        "displayName": "Salt Haze",
+        "canonical": "#a7b4bb",
+        "tonalRamp": [
+          "#212425",
+          "#43484b",
+          "#646c70",
+          "#869096",
+          "#a7b4bb",
+          "#b9c3c9",
+          "#cad2d6",
+          "#dce1e4"
+        ]
+      },
+      "sea-glass": {
+        "role": "neutral",
+        "displayName": "Sea Glass",
+        "canonical": "#7fa29a",
+        "tonalRamp": [
+          "#19201f",
+          "#33413e",
+          "#4c615c",
+          "#66827b",
+          "#7fa29a",
+          "#99b5ae",
+          "#b2c7c2",
+          "#ccdad7"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Press Ink",
+        "canonical": "#111111",
+        "tonalRamp": [
+          "#030303",
+          "#070707",
+          "#0a0a0a",
+          "#0e0e0e",
+          "#111111",
+          "#414141",
+          "#707070",
+          "#a0a0a0"
+        ]
+      },
+      "heat": {
+        "role": "primary",
+        "displayName": "Heat",
+        "canonical": "#ff4a1f",
+        "tonalRamp": [
+          "#330f06",
+          "#661e0c",
+          "#992c13",
+          "#cc3b19",
+          "#ff4a1f",
+          "#ff6e4c",
+          "#ff9279",
+          "#ffb7a5"
+        ]
+      },
+      "heat-text": {
+        "role": "primary",
+        "displayName": "Heat Text",
+        "canonical": "#e8380b",
+        "tonalRamp": [
+          "#2e0b02",
+          "#5d1604",
+          "#8b2207",
+          "#ba2d09",
+          "#e8380b",
+          "#ed603c",
+          "#f1886d",
+          "#f6af9d"
+        ]
+      },
+      "cobalt": {
+        "role": "primary",
+        "displayName": "Cobalt",
+        "canonical": "#1f3bff",
+        "tonalRamp": [
+          "#060c33",
+          "#0c1866",
+          "#132399",
+          "#192fcc",
+          "#1f3bff",
+          "#4c62ff",
+          "#7989ff",
+          "#a5b1ff"
+        ]
+      },
+      "chartreuse": {
+        "role": "primary",
+        "displayName": "Chartreuse",
+        "canonical": "#c9f23c",
+        "tonalRamp": [
+          "#28300c",
+          "#506118",
+          "#799124",
+          "#a1c230",
+          "#c9f23c",
+          "#d4f563",
+          "#dff78a",
+          "#e9fab1"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Spread Title",
+        "purpose": "One per spread, grain-masked League Gothic caps."
+      },
+      "masthead": {
+        "displayName": "Masthead",
+        "purpose": "ALWYN / TABLATIN hero pair; monumental by design."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Records, quest names, skill group heads."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Buttons and numerals."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All reading text, Archivo."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Folio, side-heads, toast, metadata; tracked caps."
+      }
+    },
+    "shadows": [
+      {
+        "name": "focus-halo",
+        "value": "outline: 3px solid var(--fg); outline-offset: 3px; box-shadow: 0 0 0 3px var(--stock)",
+        "purpose": "Focus only. The sole shadow-like value; keeps focus visible over halftone dots. No elevation shadows exist."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Zone colour cross-fade (0.7s), nav underline, chevrons, XP fill."
+      },
+      {
+        "name": "press-wipe-black-plate",
+        "value": "clip-path inset(0 100% 0 0) to inset(0 0 0 0), 0.9s expo.out, group stagger 0.1s, once",
+        "purpose": "Black plate lays down left to right."
+      },
+      {
+        "name": "press-spot-plate",
+        "value": "from translate(-18px, 10px), delay 0.25s, 1.2s expo.out, settles at translate(3px, -2px)",
+        "purpose": "Spot plate lands late and out of register."
+      },
+      {
+        "name": "scroll-slip",
+        "value": "velocity/2600 clamped to +-1, smoothing 0.14, plate translate = (3 + 10s)px, (-2 - 5s)px",
+        "purpose": "Scroll speed pushes the spot plate out of register; returns within about 1.8s."
+      },
+      {
+        "name": "camera-dwell",
+        "value": "440px of scroll to reach a stop, clamped 0.1 to 0.4 of spread",
+        "purpose": "Camera arrives, holds while reading, leaves in the last stretch."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "durations 0.01ms; press run and camera slip not run; static halftone backdrop",
+        "purpose": "Static, complete page."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "700",
+        "value": "700px"
+      },
+      {
+        "name": "760",
+        "value": "760px"
+      },
+      {
+        "name": "900",
+        "value": "900px"
+      },
+      {
+        "name": "960",
+        "value": "960px"
+      },
+      {
+        "name": "1000",
+        "value": "1000px"
+      },
+      {
+        "name": "1100",
+        "value": "1100px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Button",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "Opaque stock block with ink hairline; inverts to ink on hover.",
+      "html": "<button class=\"ds-btn\">Resume</button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:12px 22px;border:1px solid #111;background:#f3efe6;color:#111;font-family:'League Gothic',sans-serif;font-size:1.45rem;line-height:1;letter-spacing:.02em;text-transform:uppercase;cursor:pointer;transition:background-color .18s,color .18s}.ds-btn:hover,.ds-btn:focus-visible{background:#111;color:#f3efe6}.ds-btn:focus-visible{outline:3px solid #111;outline-offset:3px}"
+    },
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Spot-filled block for the one main action of a spread.",
+      "html": "<button class=\"ds-btn ds-btn-primary\">Email me</button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:12px 22px;border:1px solid #111;background:#f3efe6;color:#111;font-family:'League Gothic',sans-serif;font-size:1.45rem;line-height:1;letter-spacing:.02em;text-transform:uppercase;cursor:pointer;transition:background-color .18s,color .18s}.ds-btn:hover,.ds-btn:focus-visible{background:#111;color:#f3efe6}.ds-btn:focus-visible{outline:3px solid #111;outline-offset:3px}.ds-btn-primary{background:#ff4a1f;color:#111}.ds-btn-primary:hover,.ds-btn-primary:focus-visible{background:#111;color:#f3efe6}"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Square hairline tag on stock.",
+      "html": "<span class=\"ds-chip\">LangGraph</span>",
+      "css": ".ds-chip{display:inline-block;padding:3px 9px;border:1px solid #111;background:#f3efe6;color:#111;font-family:Archivo,system-ui,sans-serif;font-size:.78rem;line-height:1.5}"
+    },
+    {
+      "name": "Numeral Block",
+      "kind": "custom",
+      "refersTo": "numeral-block",
+      "description": "Square spot block carrying a League Gothic numeral; the main carrier of the spread spot.",
+      "html": "<span class=\"ds-num\">01</span>",
+      "css": ".ds-num{display:inline-grid;place-items:center;min-width:40px;height:40px;padding:5px 6px 0;background:#ff4a1f;color:#111;border:1px solid #111;font-family:'League Gothic',sans-serif;font-size:1.7rem;line-height:1}"
+    },
+    {
+      "name": "Chapter Tab",
+      "kind": "nav",
+      "refersTo": "",
+      "description": "Masthead cell: spot numeral, tracked-caps label, 4px ink underline grows on the active spread.",
+      "html": "<a class=\"ds-tab\" href=\"#\"><span class=\"ds-tab-n\">2</span>Quests</a>",
+      "css": ".ds-tab{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 16px;border-left:1px solid #111;color:#111;text-decoration:none;font:600 .78rem/1 Archivo,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;background:linear-gradient(#111,#111) no-repeat left bottom/100% 4px}.ds-tab:hover{background-color:#111;color:#f3efe6}.ds-tab-n{min-width:22px;padding:4px 4px 1px;background:#ff4a1f;color:#111;font-family:'League Gothic',sans-serif;font-size:1.1rem;letter-spacing:0;text-align:center}"
+    },
+    {
+      "name": "Ledger Row",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Ruled index row: display headline left, detail and chips right, tenure or level bar underneath.",
+      "html": "<div class=\"ds-row\"><h3>Languages</h3><div><p>TypeScript, Python</p><span class=\"ds-bar\"><span class=\"ds-fill\"></span></span></div></div>",
+      "css": ".ds-row{display:grid;grid-template-columns:minmax(10rem,28%) 1fr;gap:14px 24px;padding:18px 20px;border:1px solid #111;background:#f3efe6;color:#111;font-family:Archivo,system-ui,sans-serif}.ds-row h3{margin:0;font:400 2.4rem/.92 'League Gothic',sans-serif;text-transform:uppercase}.ds-row p{margin:0 0 6px}.ds-bar{display:block;height:10px;border:1px solid #111}.ds-fill{display:block;height:100%;width:70%;background:#111}"
+    },
+    {
+      "name": "Locked Slot",
+      "kind": "custom",
+      "refersTo": "",
+      "description": "Unearned achievement printed as a dashed empty slot.",
+      "html": "<div class=\"ds-slot\">Locked</div>",
+      "css": ".ds-slot{padding:16px;border:1px dashed #111;color:#111;font:600 .72rem/1.4 Archivo,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase}"
+    },
+    {
+      "name": "Toast",
+      "kind": "custom",
+      "refersTo": "toast",
+      "description": "Square ink block with foam tracked-caps text.",
+      "html": "<div class=\"ds-toast\">Registration mark found</div>",
+      "css": ".ds-toast{display:inline-block;padding:14px 20px;border:1px solid #111;background:#111;color:#f3efe6;font:600 .72rem/1.4 Archivo,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Surf-Mag Layout Desk",
+    "overview": "The site is one issue of a surf-culture music magazine, laid out by someone who treats collisions as craft. A continuous halftone 3D \"photograph\" sits behind the page and is flown by scroll, one sculpture per spread, and the type is printed straight through it. Everything is uncoated stock, dense ink and one loud spot colour per spread. Panels are hairline-ruled, square and flat. Nothing glows, floats or rounds.\n\nDensity is editorial: monumental condensed caps against small, quiet Archivo reading text, divided by 1px ink rules like a layout grid. The RPG vocabulary stays in the copy and the game mechanics stay in the product, dressed as magazine furniture: an issue folio, chapter numbers, index rows, registration marks.\n\nThe one authored motion moment is the press run: each spread arrives like a sheet off a two-colour press, black plate first, spot plate a beat late and out of register, then settling.",
+    "keyCharacteristics": [
+      "Four uncoated stocks, one ink, three spots, one spot per spread.",
+      "League Gothic caps at monumental scale, grain baked into the glyphs; Archivo for everything read.",
+      "1px ink hairlines are the only structure. No radii, no shadows, no glow.",
+      "Small copy always sits on an opaque stock plate when it overlaps the 3D layer.",
+      "Halftone ink-dot 3D at 45 degrees with the spot screen at 15 degrees.",
+      "Static and complete when motion or WebGL is unavailable."
+    ],
+    "rules": [
+      {
+        "name": "The One Spot Rule",
+        "body": "Each spread has exactly one spot colour, used on its loudest fragments (numeral blocks, primary button, highlighted headline word, primary skill row, XP fill). A second spot on the same spread is a defect.",
+        "section": "colors"
+      },
+      {
+        "name": "The Spot-Text Rule",
+        "body": "The spot is text only where --spot-text says so. Heat is never small text on foam, and on haze and glass neither chartreuse nor heat is text at all; those zones map spot-text to ink and the spot appears as a fill with ink on it. Always pair a fill with --on-spot.",
+        "section": "colors"
+      },
+      {
+        "name": "The Pure Spot Rule",
+        "body": "On haze, glass, ink and in boss mode the spot plate prints with normal blend so the spot stays pure. Multiply (overprint) is reserved for foam and bleach.",
+        "section": "colors"
+      },
+      {
+        "name": "The Boss Inversion Rule",
+        "body": "Boss mode swaps the whole system to ink stock, foam text and chartreuse spot, overriding every zone.",
+        "section": "colors"
+      },
+      {
+        "name": "The Grain Rule",
+        "body": "Display type carries a 240px fractal-noise alpha mask so it reads as ink on stock, not vector fill.",
+        "section": "typography"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "Display face for headlines, numerals and buttons; Archivo for everything else. No third family, no system display face.",
+        "section": "typography"
+      },
+      {
+        "name": "The Plate Rule",
+        "body": "Never set small copy directly on the 3D layer. Anything below headline size that overlaps the canvas sits on an opaque (or 88% stock on the hero pitch) plate with a hairline. Headlines may print straight through the sculptures because dot coverage is capped at 0.58.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Flat Rule",
+        "body": "No box-shadow, text-shadow, glow, blur or gradient fills for decoration.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do give each spread one spot and use it on numeral blocks, the primary button, one headline word and the XP fill.",
+      "Do put every piece of small copy that overlaps the 3D layer on an opaque stock plate with a hairline.",
+      "Do keep hairlines at 1px in `--fg`, and use dashed hairlines for empty or locked slots.",
+      "Do invert to ink on hover for buttons, tabs and rows.",
+      "Do switch to normal blend for the spot on haze, glass, ink and boss mode; keep multiply on foam and bleach.",
+      "Do use spot-text only where the zone table allows it, and `--on-spot` on every spot fill.",
+      "Do let the masthead and spread titles be monumental and overlap; keep the grain mask on display type.",
+      "Do keep all content in the DOM and the page complete without WebGL or motion."
+    ],
+    "donts": [
+      "Don't use radii, box-shadows, text-shadows, glow, blur or gradient decoration.",
+      "Don't set small copy straight on the canvas.",
+      "Don't stack an eyebrow or kicker label above a heading.",
+      "Don't use more than one spot colour on a spread, or heat as small text on foam, or chartreuse or heat as text on haze or glass.",
+      "Don't add a third typeface, a system display face, or icon-font or glyph icons; icons are drawn SVG.",
+      "Don't return to neon, pixel or game-HUD styling, or a centred headline over a card grid.",
+      "Don't make the 3D dots merge to solid under headlines."
+    ]
+  }
+}

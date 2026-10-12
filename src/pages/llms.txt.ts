@@ -22,7 +22,7 @@ export const GET: APIRoute = ({ site }) => {
     '',
     '## Experience',
     '',
-    ...experience.map((r) => `- ${r.role}, ${r.company} (${r.location}), ${r.start} – ${r.end}`),
+    ...experience.map((r) => `- ${r.role}, ${r.company}${r.location ? ` (${r.location})` : ''}, ${r.start} – ${r.end}`),
     '',
     '## Skills',
     '',

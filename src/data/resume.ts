@@ -53,7 +53,7 @@ export const skills: SkillGroup[] = [
 export type Role = {
   role: string;
   company: string;
-  location: string;
+  location?: string;
   start: string;
   end: string;
   bullets: string[];
@@ -133,8 +133,15 @@ export const experience: Role[] = [
     ],
   },
   {
+    role: 'Senior Software Engineer',
+    company: 'Offshorly',
+    start: 'May 2022',
+    end: 'Nov 2022',
+    bullets: [],
+  },
+  {
     role: 'Software Engineer',
-    company: 'Moment (via Offshorly)',
+    company: 'Moment',
     location: 'Remote (Los Angeles, United States)',
     start: 'May 2021',
     end: 'May 2023',
@@ -271,7 +278,7 @@ export const projects: Project[] = [
   {
     slug: 'moment-world',
     title: 'Moment "World": 3D gamified live streaming',
-    company: 'Moment (via Offshorly)',
+    company: 'Moment',
     role: 'Software Engineer',
     period: 'May 2021 – May 2023',
     type: 'Main quest',

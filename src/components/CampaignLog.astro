@@ -41,15 +41,17 @@ const span = (m: number) => `${Math.floor(m / 12) ? `${Math.floor(m / 12)} yr ` 
                   <p class="label">{span(months(r))}</p>
                 </div>
                 <div class="what">
-                  <h3 class="display"><span class="lv label">LV {experience.length - i}</span>{r.role}</h3>
+                  <h3 class="display"><span class="lv label">LV {experience.length - i}</span>{' '}{r.role}</h3>
                   <p class="org">
-                    <strong>{r.company}</strong> · {r.location}
+                    <strong>{r.company}</strong>{r.location && ` · ${r.location}`}
                   </p>
-                  <ul class="bullets">
-                    {r.bullets.slice(0, VISIBLE).map((b) => (
-                      <li>{b}</li>
-                    ))}
-                  </ul>
+                  {r.bullets.length > 0 && (
+                    <ul class="bullets">
+                      {r.bullets.slice(0, VISIBLE).map((b) => (
+                        <li>{b}</li>
+                      ))}
+                    </ul>
+                  )}
                   {r.bullets.length > VISIBLE && (
                     <details>
                       <summary>
@@ -80,7 +82,7 @@ const span = (m: number) => `${Math.floor(m / 12) ? `${Math.floor(m / 12)} yr ` 
               <p class="dates">{education.years}</p>
             </div>
             <div class="what">
-              <h3 class="display"><span class="lv label">Tutorial</span>{education.degree}</h3>
+              <h3 class="display"><span class="lv label">Tutorial</span>{' '}{education.degree}</h3>
               <p class="org"><strong>{education.school}</strong> · {education.location}</p>
             </div>
           </article>
