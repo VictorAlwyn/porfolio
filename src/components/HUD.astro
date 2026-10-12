@@ -1,0 +1,381 @@
+---
+import { ACHIEVEMENTS } from '../scripts/game';
+import { profile } from '../data/resume';
+
+const links = [
+  ['about', 'Bio'],
+  ['quests', 'Quests'],
+  ['skills', 'Skills'],
+  ['campaign', 'Campaign'],
+  ['contact', 'Contact'],
+];
+---
+
+<header class="hud">
+  <div class="wrap hud-bar">
+    <a href="/" class="brand">
+      <span class="brand-crest" aria-hidden="true">{profile.initials}</span>
+      <span class="brand-name">{profile.shortName}</span>
+    </a>
+
+    <nav id="site-nav" popover aria-label="Main">
+      <ul>
+        {links.map(([id, label]) => <li><a href={`/#${id}`}>{label}</a></li>)}
+      </ul>
+    </nav>
+
+    <button class="xp" id="xp-open" type="button" aria-haspopup="dialog">
+      <span class="xp-level" aria-hidden="true">LV <span id="xp-level">1</span></span>
+      <span class="xp-track" aria-hidden="true"><span class="xp-fill" id="xp-fill"></span></span>
+      <span class="sr-only">Achievements, visitor level <span id="xp-sr">1</span></span>
+      <span class="xp-pop" id="xp-pop" aria-hidden="true"></span>
+    </button>
+
+    <button class="menu-btn" type="button" popovertarget="site-nav" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<dialog id="achievements" aria-labelledby="ach-title">
+  <div class="dlg">
+    <div class="dlg-head">
+      <h2 id="ach-title">Achievements</h2>
+      <form method="dialog"><button class="dlg-close" aria-label="Close achievements">✕</button></form>
+    </div>
+    <p class="dlg-xp"><span id="dlg-xp">0</span> XP · Level <span id="dlg-level">1</span></p>
+    <p class="dlg-note">An optional side game: explore the site to earn XP. Progress is saved in this browser only.</p>
+    <ul class="ach-list">
+      {
+        ACHIEVEMENTS.map((a) => (
+          <li class="ach" data-ach={a.id}>
+            <span class="ach-icon" aria-hidden="true">{a.icon}</span>
+            <span class="ach-text">
+              <strong>{a.title}</strong>
+              <span>{a.description}</span>
+            </span>
+            <span class="ach-state">Locked</span>
+          </li>
+        ))
+      }
+    </ul>
+    <button id="xp-reset" class="btn" type="button">Reset progress</button>
+  </div>
+</dialog>
+
+<style>
+  .hud {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in oklab, var(--bg) 78%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid color-mix(in oklab, var(--line) 70%, transparent);
+  }
+  .hud-bar {
+    height: var(--hud-h);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    margin-right: auto;
+    min-width: 0;
+  }
+  .brand-crest {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    flex: none;
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+    background: linear-gradient(135deg, var(--gold), var(--accent));
+    color: #10121f;
+    font-family: var(--font-pixel);
+    font-size: 0.6rem;
+  }
+  .brand-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Mobile: nav is a native popover menu. */
+  #site-nav {
+    position: fixed;
+    inset: var(--hud-h) var(--gutter) auto auto;
+    margin: 8px 0 0;
+    padding: 8px;
+    min-width: 200px;
+    border: 1px solid var(--line-2);
+    border-radius: var(--radius);
+    background: var(--panel);
+    color: var(--text);
+    box-shadow: 0 20px 60px -20px #000;
+  }
+  #site-nav ul {
+    list-style: none;
+    display: grid;
+  }
+  #site-nav a {
+    display: block;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  #site-nav a:hover {
+    color: var(--text);
+    background: var(--panel-2);
+  }
+
+  .menu-btn {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    flex: none;
+    border: 1px solid var(--line-2);
+    border-radius: 12px;
+    background: var(--panel);
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  @media (min-width: 880px) {
+    .menu-btn {
+      display: none;
+    }
+    /* Desktop: undo popover UA styles and show the nav inline. */
+    #site-nav {
+      display: block;
+      position: static;
+      inset: auto;
+      margin: 0 8px 0 0;
+      padding: 0;
+      min-width: 0;
+      border: 0;
+      background: none;
+      box-shadow: none;
+      overflow: visible;
+    }
+    #site-nav ul {
+      display: flex;
+      gap: 4px;
+    }
+    #site-nav a {
+      padding: 8px 12px;
+      font-size: 0.95rem;
+    }
+  }
+
+  .xp {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    background: var(--panel);
+    color: var(--text);
+    cursor: pointer;
+    flex: none;
+  }
+  .xp:hover {
+    border-color: var(--gold);
+  }
+  .xp-level {
+    font-family: var(--font-pixel);
+    font-size: 0.6rem;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  .xp-track {
+    width: clamp(56px, 12vw, 110px);
+    height: 8px;
+    border-radius: 99px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .xp-fill {
+    display: block;
+    height: 100%;
+    width: 100%;
+    transform-origin: left;
+    transform: scaleX(0);
+    background: linear-gradient(90deg, var(--gold), var(--gold-2));
+    box-shadow: 0 0 12px var(--gold);
+    transition: transform 0.6s var(--ease);
+  }
+  .xp-pop {
+    position: absolute;
+    right: 10px;
+    top: 100%;
+    font-family: var(--font-pixel);
+    font-size: 0.55rem;
+    color: var(--gold);
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .xp-pop.show {
+    animation: pop 1.2s var(--ease);
+  }
+  @keyframes pop {
+    0% {
+      opacity: 0;
+      transform: translateY(0);
+    }
+    20% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: max(20px, env(safe-area-inset-bottom));
+    z-index: 60;
+    max-width: min(92vw, 520px);
+    padding: 14px 20px;
+    border: 1px solid var(--gold);
+    border-radius: var(--radius);
+    background: color-mix(in oklab, var(--panel) 92%, transparent);
+    box-shadow:
+      0 0 0 4px color-mix(in oklab, var(--gold) 15%, transparent),
+      0 20px 50px -15px #000;
+    font-weight: 600;
+    text-align: center;
+    transform: translate(-50%, 140%);
+    opacity: 0;
+    transition:
+      transform 0.45s var(--ease),
+      opacity 0.3s;
+    pointer-events: none;
+  }
+  .toast.show {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+
+  dialog {
+    width: min(92vw, 520px);
+    max-height: 85dvh;
+    padding: 0;
+    border: 1px solid var(--line-2);
+    border-radius: 20px;
+    background: var(--panel);
+    color: var(--text);
+  }
+  dialog::backdrop {
+    background: rgb(4 5 12 / 0.7);
+    backdrop-filter: blur(4px);
+  }
+  .dlg {
+    padding: 24px;
+  }
+  .dlg-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .dlg-head h2 {
+    font-size: 1.5rem;
+  }
+  .dlg-close {
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line-2);
+    border-radius: 12px;
+    background: var(--bg-2);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  .dlg-xp {
+    margin-top: 6px;
+    font-family: var(--font-pixel);
+    font-size: 0.65rem;
+    color: var(--gold);
+  }
+  .dlg-note {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+  .ach-list {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+    margin: 18px 0 20px;
+  }
+  .ach {
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--bg-2);
+    opacity: 0.6;
+  }
+  .ach-icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--panel-2);
+    font-size: 1.3rem;
+    filter: grayscale(1);
+  }
+  .ach-text {
+    display: grid;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .ach-text strong {
+    color: var(--text);
+  }
+  .ach-state {
+    font-family: var(--font-pixel);
+    font-size: 0.5rem;
+    color: var(--dim);
+  }
+  .ach[data-unlocked] {
+    opacity: 1;
+    border-color: color-mix(in oklab, var(--gold) 55%, var(--line));
+  }
+  .ach[data-unlocked] .ach-icon {
+    filter: none;
+    background: color-mix(in oklab, var(--gold) 18%, var(--panel-2));
+  }
+  .ach[data-unlocked] .ach-state {
+    color: var(--gold);
+  }
+
+  @media (max-width: 420px) {
+    .brand-name {
+      display: none;
+    }
+  }
+</style>

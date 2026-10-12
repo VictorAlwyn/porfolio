@@ -1,0 +1,261 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Base from '../../layouts/Base.astro';
+import Emblem from '../../components/Emblem.astro';
+import { personLd, profile, projects, type Project } from '../../data/resume';
+
+export const getStaticPaths = (() =>
+  projects.map((project, i) => ({
+    params: { slug: project.slug },
+    props: { project, next: projects[(i + 1) % projects.length] },
+  }))) satisfies GetStaticPaths;
+
+interface Props {
+  project: Project;
+  next: Project;
+}
+
+const { project: p, next } = Astro.props;
+const site = Astro.site!;
+const path = `/quests/${p.slug}`;
+const url = new URL(path, site).href;
+const person = personLd(site);
+const jsonLd = [
+  {
+    '@type': 'CreativeWork',
+    '@id': `${url}#work`,
+    name: p.title,
+    headline: p.title,
+    description: p.summary,
+    abstract: p.brief,
+    url,
+    author: { '@id': person['@id'] },
+    creator: { '@id': person['@id'] },
+    sourceOrganization: { '@type': 'Organization', name: p.company },
+    keywords: p.stack.join(', '),
+    temporalCoverage: p.period,
+    ...(p.image && { image: new URL(p.image, site).href }),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: site.href },
+      { '@type': 'ListItem', position: 2, name: 'Quests', item: new URL('/#quests', site).href },
+      { '@type': 'ListItem', position: 3, name: p.title, item: url },
+    ],
+  },
+  person,
+];
+---
+
+<Base title={`${p.title} | ${profile.shortName}`} description={p.summary} path={path} ogType="article" jsonLd={jsonLd} quest={p.slug}>
+  <article class="wrap qp" style={`--hue:${p.hue}`}>
+    <nav aria-label="Breadcrumb" class="crumbs">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/#quests">Quests</a></li>
+        <li aria-current="page">{p.company}</li>
+      </ol>
+    </nav>
+
+    <header class="qp-head">
+      <div class="qp-intro">
+        <p class="kicker">{p.type}</p>
+        <h1>{p.title}</h1>
+        <p class="qp-summary">{p.summary}</p>
+        <dl class="qp-facts">
+          <div><dt>Role</dt><dd>{p.role}</dd></div>
+          <div><dt>Guild</dt><dd>{p.company}</dd></div>
+          <div><dt>Period</dt><dd>{p.period}</dd></div>
+        </dl>
+        {
+          p.url && (
+            <a class="btn" href={p.url} rel="noopener" target="_blank">
+              Visit {p.company} ↗
+            </a>
+          )
+        }
+      </div>
+      <div class="qp-art panel">
+        {
+          p.image ? (
+            <img src={p.image} alt={`Screenshot of ${p.title}`} width="960" height="540" />
+          ) : (
+            <Emblem glyph={p.glyph} hue={p.hue} />
+          )
+        }
+      </div>
+    </header>
+
+    <div class="qp-grid">
+      <div class="qp-main">
+        <section aria-labelledby="brief" data-reveal>
+          <h2 id="brief">Quest briefing</h2>
+          <p>{p.brief}</p>
+        </section>
+        <section aria-labelledby="objectives" data-reveal>
+          <h2 id="objectives">Objectives completed</h2>
+          <ul class="objectives">{p.built.map((b) => <li>{b}</li>)}</ul>
+        </section>
+      </div>
+      <aside class="qp-side" data-reveal>
+        <div class="panel loot">
+          <h2>Loot: tech stack</h2>
+          <ul class="chips">{p.stack.map((s) => <li class="chip">{s}</li>)}</ul>
+        </div>
+        <a class="panel next" href={`/quests/${next.slug}`}>
+          <span class="kicker">Next quest</span>
+          <strong>{next.title}</strong>
+        </a>
+        <a class="btn btn-primary" href="/#contact">Recruit {profile.shortName.split(' ')[0]} to your party</a>
+      </aside>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .qp {
+    padding-block: 28px clamp(64px, 10vw, 112px);
+  }
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: var(--dim);
+    font-size: 0.9rem;
+  }
+  .crumbs li + li::before {
+    content: '/';
+    margin-right: 6px;
+  }
+  .crumbs a {
+    color: var(--muted);
+  }
+  .qp-head {
+    display: grid;
+    gap: 32px;
+    align-items: center;
+    margin-top: 32px;
+  }
+  @media (min-width: 960px) {
+    .qp-head {
+      grid-template-columns: 1.2fr 1fr;
+      gap: 56px;
+    }
+  }
+  h1 {
+    margin-top: 16px;
+    font-size: clamp(2rem, 1.3rem + 3vw, 3.6rem);
+  }
+  .qp-summary {
+    margin-top: 18px;
+    color: var(--muted);
+    font-size: 1.15rem;
+    max-width: 56ch;
+  }
+  .qp-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 26px 0;
+  }
+  .qp-facts div {
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--bg-2);
+  }
+  .qp-facts dt {
+    font-family: var(--font-pixel);
+    font-size: 0.52rem;
+    color: var(--gold);
+  }
+  .qp-facts dd {
+    margin: 4px 0 0;
+    font-weight: 500;
+  }
+  .qp-art {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    box-shadow: 0 30px 80px -30px hsl(var(--hue) 90% 55% / 0.5);
+  }
+  .qp-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .qp-grid {
+    display: grid;
+    gap: 40px;
+    margin-top: clamp(48px, 7vw, 88px);
+  }
+  @media (min-width: 960px) {
+    .qp-grid {
+      grid-template-columns: 1.6fr 1fr;
+      gap: 56px;
+      align-items: start;
+    }
+    .qp-side {
+      position: sticky;
+      top: calc(var(--hud-h) + 24px);
+    }
+  }
+  .qp-main {
+    display: grid;
+    gap: 44px;
+  }
+  .qp-main h2,
+  .loot h2 {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+  }
+  .qp-main p {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 66ch;
+  }
+  .objectives {
+    list-style: none;
+    display: grid;
+    gap: 12px;
+  }
+  .objectives li {
+    position: relative;
+    padding: 14px 16px 14px 48px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklab, var(--panel) 80%, transparent);
+    color: var(--muted);
+  }
+  .objectives li::before {
+    content: '✓';
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    color: var(--green);
+    font-weight: 700;
+  }
+  .qp-side {
+    display: grid;
+    gap: 16px;
+  }
+  .loot {
+    padding: 22px;
+  }
+  .loot h2 {
+    font-size: 1.15rem;
+  }
+  .next {
+    display: grid;
+    gap: 10px;
+    padding: 22px;
+    text-decoration: none;
+    transition: border-color 0.2s;
+  }
+  .next:hover {
+    border-color: var(--accent);
+  }
+</style>

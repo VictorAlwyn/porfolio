@@ -1,0 +1,106 @@
+---
+import { skills } from '../data/resume';
+---
+
+<section class="section" id="skills" data-section="skills" aria-labelledby="skills-title">
+  <div class="wrap">
+    <div data-reveal>
+      <p class="kicker">03 · Skill tree</p>
+      <h2 class="section-title" id="skills-title">Unlocked abilities</h2>
+      <p class="section-intro">
+        {skills.reduce((n, g) => n + g.items.length, 0)} skills across {skills.length} branches, with AI and LLM
+        engineering as the main build.
+      </p>
+    </div>
+
+    <ul class="tree" data-stagger>
+      {
+        skills.map((g, i) => (
+          <li class:list={['branch panel', { primary: i === 0 }]}>
+            <div class="branch-head">
+              <span class="node" aria-hidden="true">
+                {g.icon}
+              </span>
+              <div>
+                <h3>{g.name}</h3>
+                <p class="branch-count">
+                  {g.items.length} unlocked{i === 0 && ' · Main build'}
+                </p>
+              </div>
+            </div>
+            <ul class="chips">
+              {g.items.map((s) => (
+                <li class="chip">{s}</li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .tree {
+    list-style: none;
+    display: grid;
+    gap: 16px;
+    margin-top: 44px;
+  }
+  @media (min-width: 640px) {
+    .tree {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .primary {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (min-width: 1040px) {
+    .tree {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .branch {
+    padding: 22px;
+    display: grid;
+    align-content: start;
+    gap: 18px;
+  }
+  .primary {
+    border-color: color-mix(in oklab, var(--gold) 45%, var(--line));
+    background:
+      radial-gradient(600px 200px at 0% 0%, color-mix(in oklab, var(--gold) 12%, transparent), transparent 70%),
+      linear-gradient(180deg, var(--panel-2), var(--panel));
+  }
+  .primary .chip {
+    border-color: color-mix(in oklab, var(--gold) 35%, var(--line-2));
+    color: var(--text);
+  }
+  .branch-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .node {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 50px;
+    flex: none;
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+    background: color-mix(in oklab, var(--accent) 22%, var(--panel-2));
+    color: var(--accent);
+    font-size: 1.2rem;
+  }
+  .primary .node {
+    background: linear-gradient(135deg, var(--gold), var(--accent));
+    color: #10121f;
+  }
+  h3 {
+    font-size: 1.1rem;
+  }
+  .branch-count {
+    color: var(--dim);
+    font-size: 0.85rem;
+  }
+</style>

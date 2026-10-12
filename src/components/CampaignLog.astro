@@ -1,0 +1,198 @@
+---
+import { education, experience } from '../data/resume';
+
+const VISIBLE = 2;
+---
+
+<section class="section" id="campaign" data-section="campaign" aria-labelledby="campaign-title">
+  <div class="wrap">
+    <div data-reveal>
+      <p class="kicker">04 · Campaign log</p>
+      <h2 class="section-title" id="campaign-title">Work experience</h2>
+      <p class="section-intro">
+        Every role is a level. {experience.length} cleared so far, from teaching programming to building AI products.
+      </p>
+    </div>
+
+    <ol class="log" data-timeline>
+      {
+        experience.map((r, i) => (
+          <li class="level">
+            <span class="marker" aria-hidden="true">
+              {experience.length - i}
+            </span>
+            <article class="level-body">
+              <p class="level-meta">
+                <span class="level-num">LV {experience.length - i}</span>
+                <span>
+                  {r.start} – {r.end}
+                </span>
+              </p>
+              <h3>{r.role}</h3>
+              <p class="level-org">
+                <strong>{r.company}</strong> · {r.location}
+              </p>
+              <ul class="bullets">
+                {r.bullets.slice(0, VISIBLE).map((b) => (
+                  <li>{b}</li>
+                ))}
+              </ul>
+              {r.bullets.length > VISIBLE && (
+                <details>
+                  <summary>Show {r.bullets.length - VISIBLE} more</summary>
+                  <ul class="bullets">
+                    {r.bullets.slice(VISIBLE).map((b) => (
+                      <li>{b}</li>
+                    ))}
+                  </ul>
+                </details>
+              )}
+              {r.quest && (
+                <a class="level-quest" href={`/quests/${r.quest}`}>
+                  View quest →
+                </a>
+              )}
+            </article>
+          </li>
+        ))
+      }
+      <li class="level tutorial">
+        <span class="marker" aria-hidden="true">0</span>
+        <article class="level-body">
+          <p class="level-meta">
+            <span class="level-num">Tutorial</span>
+            <span>{education.years}</span>
+          </p>
+          <h3>{education.degree}</h3>
+          <p class="level-org"><strong>{education.school}</strong> · {education.location}</p>
+        </article>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<style>
+  .log {
+    --progress: 1;
+    position: relative;
+    list-style: none;
+    margin: 48px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 18px;
+  }
+  .log::before,
+  .log::after {
+    content: '';
+    position: absolute;
+    left: 21px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--line);
+  }
+  .log::after {
+    background: linear-gradient(var(--gold), var(--accent));
+    transform-origin: top;
+    transform: scaleY(var(--progress));
+  }
+  .level {
+    position: relative;
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 14px;
+  }
+  @media (min-width: 720px) {
+    .level {
+      gap: 24px;
+    }
+  }
+  .marker {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 48px;
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+    background: var(--panel-2);
+    color: var(--gold);
+    font-family: var(--font-pixel);
+    font-size: 0.6rem;
+    margin-top: 14px;
+  }
+  .level:first-child .marker {
+    background: linear-gradient(135deg, var(--gold), var(--accent));
+    color: #10121f;
+  }
+  .level-body {
+    min-width: 0;
+    padding: clamp(16px, 3vw, 24px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: color-mix(in oklab, var(--panel) 85%, transparent);
+  }
+  .level-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 6px 16px;
+    color: var(--dim);
+    font-size: 0.88rem;
+  }
+  .level-num {
+    font-family: var(--font-pixel);
+    font-size: 0.58rem;
+    line-height: 2.2;
+    color: var(--gold);
+  }
+  h3 {
+    margin-top: 6px;
+    font-size: clamp(1.1rem, 1rem + 0.5vw, 1.3rem);
+  }
+  .level-org {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .level-org strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .bullets {
+    display: grid;
+    gap: 8px;
+    margin-top: 14px;
+    padding-left: 20px;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .bullets li::marker {
+    color: var(--accent);
+  }
+  details {
+    margin-top: 10px;
+  }
+  summary {
+    cursor: pointer;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.92rem;
+    width: fit-content;
+    padding: 6px 0;
+  }
+  .level-quest {
+    display: inline-block;
+    margin-top: 14px;
+    color: var(--gold);
+    font-weight: 600;
+    text-decoration: none;
+    padding: 6px 0;
+  }
+  .level-quest:hover {
+    text-decoration: underline;
+  }
+  .tutorial .level-body {
+    border-style: dashed;
+  }
+</style>

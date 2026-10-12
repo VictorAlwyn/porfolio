@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Quests from '../components/Quests.astro';
+import SkillTree from '../components/SkillTree.astro';
+import CampaignLog from '../components/CampaignLog.astro';
+import Contact from '../components/Contact.astro';
+import { personLd, profile, projects } from '../data/resume';
+
+const site = Astro.site!;
+const person = personLd(site);
+const jsonLd = [
+  { '@type': 'WebSite', '@id': new URL('/#website', site).href, url: site.href, name: profile.name, author: { '@id': person['@id'] } },
+  {
+    '@type': 'ProfilePage',
+    '@id': new URL('/#profile', site).href,
+    url: site.href,
+    name: `${profile.name}, ${profile.title}`,
+    isPartOf: { '@id': new URL('/#website', site).href },
+    mainEntity: { '@id': person['@id'] },
+  },
+  person,
+  {
+    '@type': 'ItemList',
+    name: 'Featured projects',
+    itemListElement: projects.map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: new URL(`/quests/${p.slug}`, site).href,
+      name: p.title,
+    })),
+  },
+];
+---
+
+<Base
+  title={`${profile.name} | ${profile.title}`}
+  description="Senior Full-Stack AI Engineer with 8+ years building LLM workflows, AI agents and voice agents, plus web and mobile apps in TypeScript, React and Node.js."
+  path="/"
+  ogType="profile"
+  jsonLd={jsonLd}
+>
+  <Hero />
+  <About />
+  <Quests />
+  <SkillTree />
+  <CampaignLog />
+  <Contact />
+</Base>

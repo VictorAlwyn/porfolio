@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Page not found | Alwyn Tablatin" description="This page does not exist." path="/404" noindex>
+  <section class="wrap lost">
+    <p class="kicker">Error 404</p>
+    <h1>You wandered off the map.</h1>
+    <p>This area hasn't been built yet. Head back to the start and pick a quest.</p>
+    <a class="btn btn-primary" href="/">Return to spawn point</a>
+  </section>
+</Base>
+
+<style>
+  .lost {
+    display: grid;
+    justify-items: start;
+    gap: 20px;
+    padding-block: clamp(80px, 16vw, 180px);
+  }
+  h1 {
+    font-size: clamp(2.2rem, 1.4rem + 4vw, 4rem);
+  }
+  p:not(.kicker) {
+    color: var(--muted);
+  }
+</style>

@@ -1,0 +1,57 @@
+---
+import { profile } from '../data/resume';
+---
+
+<section class="section" id="contact" data-section="contact" aria-labelledby="contact-title">
+  <div class="wrap">
+    <div class="contact panel" data-reveal>
+      <p class="kicker">05 · Join the party</p>
+      <h2 class="section-title" id="contact-title">Have a quest that needs an AI engineer?</h2>
+      <p class="section-intro">
+        Send a message about a role, a product or a collaboration.
+      </p>
+      <p class="email">
+        <a href={`mailto:${profile.email}`} data-xp="contact">{profile.email}</a>
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href={`mailto:${profile.email}`} data-xp="contact">Send an email</a>
+        <a class="btn" href={profile.github} data-xp="contact" rel="me noopener" target="_blank">
+          GitHub · {profile.githubHandle}
+        </a>
+        <a class="btn" href="/resume.pdf" data-xp="resume" download="Alwyn-Tablatin-Resume.pdf">Resume (PDF)</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    padding: clamp(28px, 6vw, 72px);
+    text-align: center;
+    display: grid;
+    justify-items: center;
+    background:
+      radial-gradient(700px 260px at 50% 0%, color-mix(in oklab, var(--gold) 14%, transparent), transparent 70%),
+      linear-gradient(180deg, var(--panel-2), var(--panel));
+  }
+  .section-intro {
+    margin-inline: auto;
+  }
+  .email {
+    margin-top: 26px;
+    font-size: clamp(1.1rem, 0.9rem + 1.6vw, 1.8rem);
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+  .email a {
+    text-decoration-color: var(--gold);
+    text-underline-offset: 6px;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 28px;
+  }
+</style>
