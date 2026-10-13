@@ -2,7 +2,6 @@ import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  // Change this when a custom domain is added; canonicals, sitemap, robots.txt, llms.txt and JSON-LD all derive from it.
   site: 'https://alwyn-tablatin.vercel.app',
   trailingSlash: 'never',
   build: { format: 'file' },

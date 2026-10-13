@@ -1,5 +1,3 @@
-// Press run: catch sheets off the press, dodge ink blots. Pure rules, no DOM. Coordinates are 0..1 so the game is resolution independent.
-
 export const DURATION = 60;
 export const PLAYER_W = 0.2;
 export const CATCH_Y = 0.9;
@@ -17,7 +15,6 @@ export function create(seed: number): Run {
   return { t: 0, score: 0, combo: 1, px: 0.5, items: [], spawn: 0.5, rng: seed >>> 0, over: false };
 }
 
-// mulberry32, so a seed replays the same run
 function next(run: Run) {
   run.rng = (run.rng + 0x6d2b79f5) >>> 0;
   let z = run.rng;
@@ -26,7 +23,6 @@ function next(run: Run) {
   return ((z ^ (z >>> 14)) >>> 0) / 4294967296;
 }
 
-// dir is -1, 0 or 1 from the keyboard; targetX (0..1) follows a finger or pointer. There is no early game over, so every run finishes.
 export function step(run: Run, dir: number, dt: number, targetX?: number): ArcadeEvent[] {
   if (run.over) return [];
   const events: ArcadeEvent[] = [];
@@ -76,7 +72,6 @@ export function step(run: Run, dir: number, dt: number, targetX?: number): Arcad
   return events;
 }
 
-// Storage is user-controlled, so only accept a whole, sane score.
 export function parseScore(raw: string | null): number {
   const n = Number(raw);
   return raw !== null && /^\d+$/.test(raw) && Number.isSafeInteger(n) && n < SCORE_KEY_MAX ? n : 0;

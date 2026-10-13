@@ -17,13 +17,9 @@ import {
 import { inkMaterial, uniforms } from './ink.ts';
 import type { Built, Tier, WorldArt, ZoneArt } from './world-types.ts';
 
-// The magazine's "photographs": six sculptures flown past in order, one per spread, all drawn as ink-dot halftone.
-// Palettes mirror the CSS zone tokens in global.css. Stops sit on a line running down -z.
 const GAP = 70;
 const z = (i: number) => -GAP * i;
 
-// On wide screens the content owns the left 62% and the sculpture the open window on the right. The camera looks 3.3 units
-// toward it and passes it 8 units to its left, so it flies beside each sculpture rather than through it.
 const beside = (cx: number, y: number, i: number, lookY = y): Pick<ZoneArt, 'cam' | 'look'> => ({
   cam: [cx - 8, y, z(i) + 34],
   look: [cx - 4.7, lookY, z(i)],
@@ -67,7 +63,6 @@ function aperture(tier: Tier): Built {
 }
 
 function slabs(): Built {
-  // One board per quest, tapering from the tallest; spacing shrinks as boards are added so the row keeps its width.
   const n = dom('#quests .cell', () => 1, [1, 1, 1, 1, 1, 1]).length;
   const span = 10.25 / (n - 1);
   const mid = (n - 1) / 2;
@@ -93,8 +88,6 @@ function slabs(): Built {
   };
 }
 
-// A mixing desk: one channel per skill branch. The bar is as tall as the branch is deep, a fader cap sits on it, and the
-// outline of the empty channel above shows what is not lit.
 function meters(): Built {
   const counts = dom('#skills .row', (el) => el.querySelectorAll('.chip').length, [11, 7, 8, 10, 6, 3, 6, 5, 6]);
   const peak = Math.max(...counts);
@@ -137,7 +130,6 @@ function meters(): Built {
   };
 }
 
-// Back issues: one record per role, as thick as the time spent there, newest on top.
 function records(tier: Tier): Built {
   const months = dom('[data-months]', (el) => Number((el as HTMLElement).dataset.months), [18, 14, 8, 13, 15, 25, 23, 4, 18, 7, 11]);
   const longest = Math.max(...months);

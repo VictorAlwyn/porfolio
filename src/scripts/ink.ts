@@ -1,9 +1,7 @@
 import { Color, ColorManagement, ShaderMaterial, Vector2, Vector3 } from 'three';
 
-// Hex colours are written straight to the framebuffer so the 3D inks match the CSS tokens exactly.
 ColorManagement.enabled = false;
 
-// Shared by every ink material: the engine mutates these once and all sculptures follow.
 export const uniforms = {
   uPaper: { value: new Color('#f3efe6') },
   uInk: { value: new Color('#111111') },
@@ -13,11 +11,10 @@ export const uniforms = {
   uTime: { value: 0 },
   uCell: { value: 8 },
   uLight: { value: new Vector3(-0.55, 0.75, 0.6).normalize() },
-  // Screens lighten with distance, like atmosphere in a print, so only the sculpture you are at is drawn.
   uFog: { value: new Vector2(46, 92) },
 };
 
-const vertexShader = /* glsl */ `
+const vertexShader = `
   uniform float uTime;
   varying vec3 vN;
   varying float vDist;
@@ -45,8 +42,7 @@ const vertexShader = /* glsl */ `
   }
 `;
 
-// One screen per ink: black key at 45 degrees, spot at 15 degrees and nudged by the scroll slip, like a two-colour press.
-const fragmentShader = /* glsl */ `
+const fragmentShader = `
   uniform vec3 uPaper;
   uniform vec3 uInk;
   uniform vec3 uSpot;
@@ -79,10 +75,8 @@ const fragmentShader = /* glsl */ `
   void main() {
     float lam = max(dot(normalize(vN), uLight), 0.0);
     float shade = pow(1.0 - lam, 1.35);
-    // On dark paper the ink is the light, so the lit side carries the dots, like a negative print.
     float tone = mix(1.0 - shade, shade, uMul);
     vec2 fc = gl_FragCoord.xy;
-    // Dots never merge into solid: headlines are printed through these sculptures and must stay readable.
     float fade = (1.0 - smoothstep(uFog.x, uFog.y, vDist)) * 0.58;
     float ink = dots(tone * fade, screenDist(fc, 0.785398));
     vec2 off = vec2(3.0 + uSlip * 14.0, -2.0 - uSlip * 7.0);

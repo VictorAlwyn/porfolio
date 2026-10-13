@@ -44,7 +44,6 @@
     --spot 0.7s var(--ease);
 }
 
-/* One clashing spot colour per spread, set on both the page (fixed backdrop) and the spread itself. */
 :root[data-zone='hero'],
 [data-zone='hero'] {
   --fg: var(--ink);
@@ -134,7 +133,6 @@ body {
   overflow-x: clip;
 }
 
-/* Static halftone "photograph" for everyone the WebGL world does not reach: reduced motion, no WebGL, the first second. */
 body::before {
   content: '';
   position: fixed;
@@ -149,7 +147,6 @@ body::before {
   opacity: 0.45;
 }
 
-/* Paper fibre over everything: sparse dark flecks, plain alpha (no blend mode) so it costs one quad over the canvas. */
 body::after {
   content: '';
   position: fixed;
@@ -225,7 +222,6 @@ dl {
   padding-inline: var(--gutter);
 }
 
-/* Type voices: League Gothic for headlines, Archivo for reading and tracked caps for labels. */
 .display {
   font-family: var(--font-display);
   font-weight: 400;
@@ -243,7 +239,6 @@ dl {
   text-transform: uppercase;
 }
 
-/* The spot plate sits slightly off register by design; motion.ts adds scroll-speed slip on top. */
 [data-spot] {
   translate: 3px -2px;
   mix-blend-mode: multiply;
@@ -262,7 +257,6 @@ dl {
   -webkit-mask-size: 240px 240px;
 }
 
-/* A spread is one magazine page: hairline top, a vertical side-head in the shoulder, content on the right. */
 .spread {
   position: relative;
   border-top: var(--rule);
@@ -299,7 +293,6 @@ dl {
 .spread-body {
   min-width: 0;
 }
-/* Content keeps the left column; the right stays an open window onto the 3D world, and headlines run across both. */
 @media (min-width: 1100px) {
   .spread-body {
     display: grid;
@@ -334,7 +327,6 @@ dl {
   margin-top: 20px;
   font-size: 1.05em;
 }
-/* Below the two-column layout the 3D sits behind everything, so loose copy gets a plate. */
 @media (max-width: 1099px) {
   .lede {
     width: fit-content;

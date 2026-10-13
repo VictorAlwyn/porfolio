@@ -8,11 +8,9 @@ export const profile = {
   github: 'https://github.com/VictorAlwyn',
   githubHandle: 'VictorAlwyn',
   location: 'Philippines',
-  // Set to a path under /public (for example '/portrait.webp') and the cover crest and structured data pick it up.
   portrait: undefined as string | undefined,
   description:
     'Alwyn Victor Tablatin is a Senior Full-Stack AI Engineer with 8+ years of experience building LLM workflows, AI agents, voice agents and production web and mobile apps with TypeScript, React/Next.js, Node.js and Python.',
-  // Written as self-contained facts so search engines and AI assistants can quote it accurately.
   bio: [
     'Alwyn Victor Tablatin is a Senior Full-Stack AI Engineer based in the Philippines with 8+ years of experience building and shipping production web and mobile applications for companies in the United States, Canada and the United Kingdom.',
     'Since 2024, Alwyn has focused on AI-powered products: LLM workflows, AI agents, voice agents and serverless AI processing for healthcare and SaaS platforms.',
@@ -239,7 +237,6 @@ export type Project = {
   url?: string;
 };
 
-// Add `image` (path under /public) or `url` to any project and the cards and quest pages pick it up.
 export const projects: Project[] = [
   {
     slug: 'docassistant-ai',

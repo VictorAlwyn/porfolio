@@ -57,7 +57,7 @@ function pop(text: string) {
   const el = $('xp-pop')!;
   el.textContent = text;
   el.classList.remove('show');
-  void el.offsetWidth; // restart the CSS animation
+  void el.offsetWidth;
   el.classList.add('show');
 }
 
@@ -86,7 +86,6 @@ function secret() {
   if (had) toast(on ? 'Boss mode on: the black issue' : 'Boss mode off');
 }
 
-// Modals pause the 3D world, which has nothing to show behind them.
 function modal(d: HTMLDialogElement | null) {
   if (!d) return;
   d.showModal();
@@ -99,7 +98,6 @@ render();
 const quest = document.body.dataset.quest;
 if (quest) grant(`quest:${quest}`);
 
-// Fires when a section's top passes ~60% of the viewport, so very tall sections still count.
 const io = new IntersectionObserver(
   (entries) => {
     for (const e of entries) {
@@ -140,7 +138,6 @@ addEventListener('keydown', (e) => {
   }
 });
 
-// Numbered exits: each chapter number in the masthead is also a key.
 addEventListener('keydown', (e) => {
   if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey || e.repeat || document.querySelector('dialog[open]')) return;
   if ((e.target as Element).closest('input, textarea, select, [contenteditable]')) return;

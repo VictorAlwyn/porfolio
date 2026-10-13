@@ -7,7 +7,6 @@ import type { Palette, Tier } from './world-types.ts';
 
 const nav = navigator as Navigator & { deviceMemory?: number };
 const tier: Tier = matchMedia('(pointer: coarse)').matches || innerWidth < 900 || nav.hardwareConcurrency <= 4 || (nav.deviceMemory ?? 8) <= 4 ? 1 : 2;
-// Phones render at lower resolution and frame rate, and go to sleep sooner after the last input.
 const CFG = tier === 1 ? { dpr: 1.25, frame: 1000 / 30, sleep: 2500, slow: 0.045 } : { dpr: 2, frame: 1000 / 60, sleep: 10000, slow: 0.022 };
 
 export function start(canvas: HTMLCanvasElement) {
@@ -17,7 +16,6 @@ export function start(canvas: HTMLCanvasElement) {
   renderer.setPixelRatio(dpr);
 
   const scene = new Scene();
-  // Hairlines are built-in line materials, so they fade with the same distances the dots do.
   scene.fog = new Fog(uniforms.uPaper.value.clone(), uniforms.uFog.value.x, uniforms.uFog.value.y);
   const camera = new PerspectiveCamera(32, 1, 0.1, 300);
 
@@ -70,7 +68,6 @@ export function start(canvas: HTMLCanvasElement) {
     if (!w || !h) return;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
-    // On wide screens the sculpture sits in the open right-hand window beside the content column.
     const wide = w / h > 1.25;
     if (wide) camera.setViewOffset(w, h, -w * 0.17, 0, w, h);
     else camera.clearViewOffset();
@@ -127,7 +124,6 @@ export function start(canvas: HTMLCanvasElement) {
     scene.fog!.color.copy(uniforms.uPaper.value);
     renderer.render(scene, camera);
 
-    // Frames that keep missing budget while the camera moves cost resolution once, never quality twice.
     if (moving && dt > CFG.slow && ++slow > 30 && dpr > 1) {
       dpr = 1;
       renderer.setPixelRatio(1);
@@ -189,7 +185,6 @@ export function start(canvas: HTMLCanvasElement) {
   });
 
   resize();
-  // Compile every sculpture's shaders while all of them are visible, so scrolling never stalls on a first draw.
   renderer.compileAsync(scene, camera).then(() => {
     canvas.dataset.tier = String(tier);
     canvas.classList.add('on');

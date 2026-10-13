@@ -46,7 +46,6 @@ export function init(dialog: HTMLDialogElement, onFinish: (score: number) => voi
     g.fillStyle = fg;
     g.lineWidth = 1;
     g.strokeRect(0.5, 0.5, W - 1, H - 1);
-    // Registration cross on the sheet, as a reminder of what is being printed.
     g.beginPath();
     g.moveTo(W / 2, 24);
     g.lineTo(W / 2, 56);

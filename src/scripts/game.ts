@@ -1,6 +1,3 @@
-// Pure game rules, no DOM. Events are strings like "section:quests", "quest:olivia-ai", "resume", "contact", "secret".
-// Each event awards XP once; achievements are derived from the events seen so far.
-
 export type State = { events: string[]; unlocked: string[] };
 
 export type Achievement = {
@@ -47,14 +44,12 @@ export const ACHIEVEMENTS: Achievement[] = [
     id: 'completionist',
     title: 'Completionist',
     description: 'Unlock every other achievement.',
-    // ponytail: relies on being last in this list so one pass sees every other unlock.
     test: (_ev, un) => ACHIEVEMENTS.every((a) => a.id === 'completionist' || un.includes(a.id)),
   },
 ];
 
 export const empty = (): State => ({ events: [], unlocked: [] });
 
-// Unlocks from Collector or the secret code, never from Completionist, which would make Bonus Stage unreachable.
 export const arcadeUnlocked = (s: State) => s.unlocked.includes('collector') || s.events.includes('secret');
 
 export const xpOf = (s: State) =>
@@ -79,7 +74,6 @@ export function award(s: State, event: string): { state: State; gained: number; 
   return { state, gained: xpOf(state) - xpOf(s), newly };
 }
 
-// Storage is user-controlled, so only accept the exact shape we write.
 export function parse(raw: string | null): State {
   try {
     const v = JSON.parse(raw ?? '');

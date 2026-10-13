@@ -1,6 +1,4 @@
 ---
-// Authored project cover: a halftone "photograph" drawn from dots, a spot-colour plate printed slightly off register, and the project's initials.
-// Stands in for a screenshot until a project gets an `image`.
 interface Props {
   glyph: string;
   seed: number;
@@ -19,7 +17,6 @@ const cy = H * (0.32 + 0.36 * rnd(2));
 const R = 150 + 90 * rnd(3);
 const angle = rnd(4) * Math.PI;
 
-// Five dot sizes from one field: a soft blob plus a diagonal ramp.
 const bins: string[][] = [[], [], [], [], []];
 for (let y = CELL / 2; y < H; y += CELL) {
   for (let x = CELL / 2; x < W; x += CELL) {

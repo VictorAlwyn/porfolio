@@ -1,7 +1,6 @@
 import type { APIRoute } from 'astro';
 import { education, experience, profile, projects, skills } from '../data/resume';
 
-// https://llmstxt.org: a plain-markdown profile that AI assistants can read in one fetch.
 export const GET: APIRoute = ({ site }) => {
   const abs = (path: string) => new URL(path, site).href;
   const body = [

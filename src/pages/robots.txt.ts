@@ -1,6 +1,5 @@
 import type { APIRoute } from 'astro';
 
-// Named explicitly so AI search and assistant crawlers see a clear "allowed", not just the wildcard.
 const AI_BOTS = [
   'GPTBot',
   'OAI-SearchBot',
