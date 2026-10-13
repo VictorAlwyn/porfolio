@@ -11,7 +11,7 @@ import { personLd, profile, projects } from '../data/resume';
 const site = Astro.site!;
 const person = personLd(site);
 const jsonLd = [
-  { '@type': 'WebSite', '@id': new URL('/#website', site).href, url: site.href, name: profile.name, author: { '@id': person['@id'] } },
+  { '@type': 'WebSite', '@id': new URL('/#website', site).href, url: site.href, name: profile.name, alternateName: profile.shortName, author: { '@id': person['@id'] } },
   {
     '@type': 'ProfilePage',
     '@id': new URL('/#profile', site).href,

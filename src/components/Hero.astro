@@ -43,8 +43,8 @@ const chapters = [
 
     <div class="hero-main">
       <h1 id="hero-title" class="title-stack">
-        <span class="name name-a display battered">{first}</span>
-        <span class="name name-b display battered" data-spot>{last}</span>
+        <span class="name name-a display battered">{first}</span>{' '}
+        <span class="name name-b display battered" data-spot>{last}</span>{' '}
         <span class="role display">{profile.title}</span>
       </h1>
 
@@ -70,9 +70,9 @@ const chapters = [
           best.map((p, i) => (
             <li>
               <a href={`/quests/${p.slug}`}>
-                <span class="best-n display" data-spot>{i + 1}</span>
+                <span class="best-n display" data-spot>{i + 1}</span>{' '}
                 <span class="best-t">
-                  <span class="display best-title">{p.title.split(': ')[0]}</span>
+                  <span class="display best-title">{p.title.split(': ')[0]}</span>{' '}
                   <span class="best-m">{p.summary}</span>
                 </span>
               </a>

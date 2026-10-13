@@ -13,6 +13,7 @@ export const GET: APIRoute = ({ site }) => {
     `- Website: ${abs('/')}`,
     `- Email: ${profile.email}`,
     `- GitHub: ${profile.github}`,
+    `- LinkedIn: ${profile.linkedin}`,
     `- Resume (PDF): ${abs('/resume.pdf')}`,
     '',
     '## Projects',
