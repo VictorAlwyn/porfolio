@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Magpie help and support</title>
+<style>
+  :root { --bg: #f6f4ee; --card: #ffffff; --ink: #1b1f2a; --muted: #5b6070; --line: #e2ded3; --link: #1f4fb0; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #14161d; --card: #1d2029; --ink: #f1efe8; --muted: #a9adba; --line: #2e3240; --link: #8fb2ff; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 42rem; margin: 0 auto; padding: 2rem 1rem 4rem; }
+  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .25rem; }
+  h2 { font-size: 1.25rem; margin: 2.25rem 0 .5rem; }
+  p, li { margin: .5rem 0; }
+  ul { padding-left: 1.25rem; }
+  a { color: var(--link); }
+  .meta { color: var(--muted); margin: 0 0 1.5rem; }
+  .contact { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.25rem; }
+  table { border-collapse: collapse; width: 100%; background: var(--card); border: 1px solid var(--line); }
+  th, td { text-align: left; padding: .5rem .75rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td:nth-child(2) { white-space: nowrap; }
+  nav { margin-bottom: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<nav><a href="privacy.html">Privacy policy</a></nav>
+<h1>Magpie help and support</h1>
+<p class="meta">Last updated 22 October 2026</p>
+
+<div class="contact">
+<p><strong>Need a hand?</strong> Email <a href="mailto:alwyn.tablatin@gmail.com">alwyn.tablatin@gmail.com</a>. Please say which phone you have and what happened. Do not send your notes or recordings; they stay on your phone and I do not need them.</p>
+</div>
+
+<h2>The first start downloads AI models</h2>
+<p>Magpie works on your phone, so on first start it downloads the AI models it needs. Use Wi-Fi and make sure the phone has this much free space, plus some room to spare:</p>
+<table>
+<thead><tr><th>Choice</th><th>Download</th><th>For</th></tr></thead>
+<tbody>
+<tr><td>Standard</td><td>about 3.5 GB</td><td>The default on every phone.</td></tr>
+<tr><td>Built-in</td><td>about 0.4 GB</td><td>iPhones on iOS 26 or later with Apple Intelligence turned on. Uses Apple's on-device model for summaries and Ask Magpie.</td></tr>
+</tbody>
+</table>
+<p>If a download stops, tap <em>Try again</em> (or <em>Download</em> if you closed Magpie). Models that already finished are kept. On Android the unfinished file usually carries on where it stopped; on iPhone it starts again. You can change your choice later under <em>Privacy &rarr; AI models</em>, and delete models you no longer use.</p>
+
+<h2>Working without internet</h2>
+<p>Once the models are downloaded, recording, transcribing, summaries, search and Ask Magpie all work in airplane mode.</p>
+
+<h2>My note is still &ldquo;Transcribing&rdquo; or &ldquo;Writing the summary&rdquo;</h2>
+<p>Everything is done by the phone itself, so longer recordings can take a few minutes and use battery. Notes are processed one at a time. If you close Magpie before they finish, they carry on the next time you open it. With Built-in, summaries wait while Apple Intelligence is turned off or not ready.</p>
+
+<h2>Answers can be wrong</h2>
+<p>Ask Magpie answers from your notes using a small model on your phone. It can miss things or misread them, so check the notes it lists under each answer. If an answer is wrong, tap <em>Report this answer</em>. It opens an email draft with the question and the answer; nothing is sent until you send it.</p>
+
+<h2>Moving to a new phone</h2>
+<p>Your notes are not in iCloud or Android backups, and Magpie has no account, so they only move if you move them:</p>
+<ul>
+<li>On the old phone: <em>Privacy &rarr; Export and backup &rarr; Save encrypted backup</em>. Choose a password of at least 8 characters.</li>
+<li>Copy the file to the new phone.</li>
+<li>On the new phone: install Magpie, finish setup, open <em>Privacy &rarr; Export and backup</em>, type the backup password under <em>Restore</em> and tap <em>Choose a backup to restore</em>.</li>
+</ul>
+<p><strong>Magpie never stores your backup password, so a forgotten password cannot be recovered.</strong> A restore adds the notes in the backup and leaves the notes already on the phone as they are.</p>
+
+<h2>Getting your notes out</h2>
+<p>Under <em>Export and backup</em> you can save all notes as Markdown or JSON files. Those files are not encrypted.</p>
+
+<h2>App lock</h2>
+<p>Turn it on under <em>Privacy</em>. Magpie asks for Face ID, a fingerprint or your phone's passcode when you come back to it after the delay you choose.</p>
+
+<h2>Deleting everything</h2>
+<p><em>Privacy &rarr; Delete everything on this phone</em> erases the notes, recordings, search data, database key and settings, and can remove the downloaded models too. It cannot be undone.</p>
+
+<h2>Refunds</h2>
+<p>Magpie is a paid download. On iPhone, Apple handles refunds: go to <a href="https://reportaproblem.apple.com">reportaproblem.apple.com</a>. On Android, ask from your Google Play order history: <a href="https://play.google.com/store/account/orderhistory">play.google.com/store/account/orderhistory</a>. If Google Play sends you to the developer, email me.</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Magpie privacy policy</title>
+<style>
+  :root { --bg: #f6f4ee; --card: #ffffff; --ink: #1b1f2a; --muted: #5b6070; --line: #e2ded3; --link: #1f4fb0; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #14161d; --card: #1d2029; --ink: #f1efe8; --muted: #a9adba; --line: #2e3240; --link: #8fb2ff; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 42rem; margin: 0 auto; padding: 2rem 1rem 4rem; }
+  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .25rem; }
+  h2 { font-size: 1.25rem; margin: 2.25rem 0 .5rem; }
+  p, li { margin: .5rem 0; }
+  ul { padding-left: 1.25rem; }
+  a { color: var(--link); }
+  .meta { color: var(--muted); margin: 0 0 1.5rem; }
+  .summary { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.25rem; }
+  nav { margin-bottom: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<nav><a href="support.html">Help and support</a></nav>
+<h1>Magpie privacy policy</h1>
+<p class="meta">Last updated 22 October 2026</p>
+
+<div class="summary">
+<p><strong>In short:</strong> Magpie keeps your voice notes, transcripts and summaries on your phone. It has no account, no server of ours, no analytics and no ads. The only thing it ever downloads is its AI model files, and your notes are never part of that.</p>
+</div>
+
+<h2>Who this is from</h2>
+<p>Magpie is made by Alwyn Tablatin. You can write to <a href="mailto:alwyn.tablatin@gmail.com">alwyn.tablatin@gmail.com</a> with any question about this policy.</p>
+
+<h2>What stays on your phone</h2>
+<ul>
+<li>Your recordings, transcripts, summaries, to-dos, tags and the search data Magpie builds from them.</li>
+<li>Your settings (such as app lock and which AI models you chose).</li>
+</ul>
+<p>The questions you ask in Ask Magpie, and the answers, are shown on the screen only. Magpie does not save them.</p>
+<p>Speech is turned into text, notes are written and questions are answered by AI models that run on your phone (with Built-in, Apple's on-device model, never Apple's cloud model). Magpie sends none of this to us or to any other company, and it has no backend that could receive it.</p>
+<p>The text of your notes, with their summaries, to-dos, tags and search data, is stored in a database that is encrypted on the phone. Its key is kept in the iPhone Keychain, or on Android locked with a key held in the Android Keystore, and Magpie never copies it off the phone. Recordings are separate audio files in Magpie's private storage, outside that database. Magpie does not encrypt them itself; they have the protection your phone gives every app's files. Magpie asks that its files be left out of iCloud and Android device backups, so your notes do not end up in a backup you did not choose to make.</p>
+
+<h2>The one thing Magpie downloads</h2>
+<p>The first time you set up Magpie, and whenever you change the AI models, it downloads model files from Hugging Face (<code>huggingface.co</code>), the public site where these model files are published. Each file is checked against a fixed checksum before it is used.</p>
+<p>When a download happens, Hugging Face and the network that delivers its files can see your phone's IP address, which file was requested and the standard details the phone adds to any download, such as the app's name and system version. Magpie sends no account, no identifier of its own and nothing from your notes with the request. You can see each download Magpie has started, with its date and size, under <em>Privacy &rarr; Network activity</em> in the app. <em>Delete everything on this phone</em> also clears that list.</p>
+<p>After the models are on your phone, Magpie works in airplane mode.</p>
+
+<h2>Permissions</h2>
+<ul>
+<li><strong>Microphone:</strong> used only while you are recording a note. The audio is stored on your phone, or deleted after it has been turned into text if you turn off <em>Keep audio recordings</em>.</li>
+<li><strong>Face ID, fingerprint or passcode:</strong> used only if you turn on app lock. The phone's own system does the check. Magpie never receives your face, fingerprint or passcode.</li>
+<li><strong>Notifications:</strong> Magpie posts a notification when a note is ready. On Android it also shows one while it is recording or working on your notes, and on iOS 26 and later iOS may show progress while a note you just saved is written up. None of them shows what is in your notes. They are made on the phone; no server is involved. Android 13 and later asks when you start a recording, and iOS asks the first time you save one. You can say no, and Magpie still records and writes up your notes.</li>
+</ul>
+
+<h2>What leaves your phone only because you send it</h2>
+<ul>
+<li><strong>Report this answer</strong> opens a draft email in your mail app that contains the question and the answer. Nothing is sent unless you press send in your mail app; if you do, we receive that email and whatever you add to it.</li>
+<li><strong>Exports and encrypted backups</strong> are files saved where you choose. Markdown and JSON exports are readable by anyone who has the file. An encrypted backup is locked with a password you pick; Magpie never stores that password, so we cannot recover it for you.</li>
+<li>Opening the <strong>Privacy policy</strong> or <strong>Help and support</strong> link in the app opens this website in your browser. These pages contain no scripts, cookies or analytics. The company that hosts them may keep ordinary web server logs.</li>
+</ul>
+
+<h2>What Magpie does not do</h2>
+<ul>
+<li>No accounts or sign-in.</li>
+<li>No analytics, advertising, tracking or crash-reporting libraries.</li>
+<li>No sale or sharing of your data. Magpie itself never sends us anything.</li>
+</ul>
+<p>If you have chosen to share diagnostics or crash data with app developers in your iPhone or Android settings, Apple or Google may send us crash reports for Magpie. They come from the operating system, not from Magpie, and do not contain your notes.</p>
+
+<h2>Your control</h2>
+<ul>
+<li><strong>Delete everything on this phone</strong> in <em>Privacy</em> erases every note, recording, search index, the database key and the settings on the phone, and optionally the downloaded models.</li>
+<li>Deleting a single note removes its text and recording.</li>
+<li>Uninstalling Magpie removes its notes, recordings, settings and models from the phone. On iPhone the database key may stay in the Keychain; on its own it opens nothing, and <em>Delete everything on this phone</em> removes it. Files you exported and backups you saved stay where you put them.</li>
+</ul>
+<p>Magpie sends us none of your notes, so there is nothing of them for us to delete or export. If you email us, for example with <em>Report this answer</em>, we have that email, and you can ask us to delete it. The export features in the app give you a copy of your own notes.</p>
+
+<h2>Children</h2>
+<p>Magpie is not aimed at children, and it collects nothing from anyone.</p>
+
+<h2>Changes</h2>
+<p>If this policy changes, the new version will be posted here with a new date. Any change that affects what leaves your phone will also be described in the release notes of the app update.</p>
+</main>
+</body>
+</html>
